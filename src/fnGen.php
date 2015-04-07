@@ -24,6 +24,16 @@ function fnSwapParams(callable $fn) {
 	};
 }
 
+function extractValue($doc, $fieldName) {
+    if (is_array($doc) || $doc instanceof \ArrayAccess) {
+        return isset($doc[$fieldName]) ? $doc[$fieldName] : null;
+    }
+    if (is_object($doc) && property_exists($doc, $fieldName)) {
+        return $doc->{$fieldName};
+    }
+    return null;
+}
+
 /**
  * Generate a function that will
  * Extract from an array $value[$fieldName] or an object $value->$fieldName
@@ -33,12 +43,38 @@ function fnSwapParams(callable $fn) {
  */
 function fnExtract($fieldName) {
 	return function ($value) use ($fieldName) {
-		if (is_array($value) || $value instanceof \ArrayAccess) {
-			return isset($value[$fieldName]) ? $value[$fieldName] : null;
-		}
-		if (is_object($value) && property_exists($value, $fieldName)) {
-			return $value->{$fieldName};
-		}
-		return null;
+        return extractValue($value, $fieldName);
 	};
 }
+
+
+function fnFieldEq($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) == $value);
+    };
+}
+
+function fnFieldLt($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) < $value);
+    };
+}
+
+function fnFieldGt($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) > $value);
+    };
+}
+
+function fnFieldLte($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) <= $value);
+    };
+}
+
+function fnFieldGte($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) >= $value);
+    };
+}
+
