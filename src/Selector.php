@@ -35,9 +35,17 @@ function selectFilter($iterator, $fn) {
     }
 }
 
+function selectChildren($iterator) {
+	foreach ($iterator as $values) {
+		foreach ($values as $key => $value) {
+			yield $key => $value;
+		}
+	}
+}
 
-function Selector($iterator) {
-    return Selector::make($iterator);
+
+function Selector($iterator, $path = null) {
+    return Selector::make($iterator, $path);
 }
 
 
@@ -49,16 +57,8 @@ class Selector implements \IteratorAggregate {
         return $this->iterator;
     }
 
-    public function __construct($iterator, $path=null) {
+    public function __construct($iterator) {
         $this->iterator = $iterator;
-
-        if ($path) {
-            $this->parsePath($path);
-        }
-    }
-
-    protected function parsePath($path) {
-
     }
 
     public function selectField($fieldName) {
@@ -69,12 +69,29 @@ class Selector implements \IteratorAggregate {
         return Selector(selectField($this->iterator, FnGen\fnFieldEq($fieldName, $value)));
     }
 
+	public function selectChildren() {
+		return Selector(selectChildren($this->iterator));
+	}
+
     public function toArray() {
         return iterator_to_array($this->iterator);
     }
 
-    public static function make($iterator) {
-        return new Selector(\functionals\toIterator($iterator));
+	public static function applyPath($selector, $path) {
+
+
+		return $selector;
+	}
+
+
+	public static function make($iterator, $path = null) {
+        $selector = new Selector(\functionals\toIterator($iterator));
+
+		if ($path) {
+			$selector = static::applyPath($selector, $path);
+		}
+
+	    return $selector;
     }
 
 }

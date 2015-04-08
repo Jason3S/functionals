@@ -10,6 +10,7 @@ namespace functionals\test;
 
 
 use functionals\Selector\Selector;
+use functionals\Sequence;
 
 class SelectorsTest extends \PHPUnit_Framework_TestCase {
     static $sampleData = [
@@ -70,18 +71,38 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
     public function testConditionalSelect() {
         // [field=value]
         // [field>value]
-        // Select($iterator, 'products.price_options[price>25]')
-        // 'products.*[update_freq=week]'
+        // Select($iterator, 'products[].price_options[price>25]')
+        // 'products[].*[update_freq=week]'
     }
 
     public function testSelector() {
+	    // products[].price_options[]
+
         $selector = Selector::make(static::$sampleData)
             ->selectField('products')
-            ->selectField('price_options');
+	        ->selectChildren()
+            ->selectField('price_options')
+            ->selectChildren();
+
 
         $values = $selector->toArray();
 
-        $this->assert(static::$sampleData[0]['products']['price_options'], $values);
+        $this->assertEquals(static::$sampleData[0]['products'][0]['price_options'], $values);
+
+	    // products[].price_options[].name
+
+	    $selector = Selector::make(static::$sampleData)
+	        ->selectField('products')
+	        ->selectChildren()
+	        ->selectField('price_options')
+	        ->selectChildren()
+	        ->selectField('name');
+
+
+	    $values = $selector->toArray();
+
+	    $this->assertEquals(Sequence::make(static::$sampleData[0]['products'][0]['price_options'])->map(\functionals\FnGen\fnExtract('name'))->toArray(), $values);
+
     }
 
 }
