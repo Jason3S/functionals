@@ -14,6 +14,7 @@ class SelectorPathParser {
 	const TOKEN_CONDITION_SEPARATOR = ',';
     const TOKEN_GROUP_BEGIN = '(';
     const TOKEN_GROUP_END = ')';
+    const TOKEN_SYMBOL = '+-*$%#@';
     const TOKEN_END = 'end';
 	const TOKEN = 'token';
 	const VALUE = 'value';
@@ -21,52 +22,61 @@ class SelectorPathParser {
 
 
 	static $patterns = [
-		'~(\w+|\\\[\[\\\]*.\-=])+~A' => ['token' => self::TOKEN_WORD,                   'match' => 0],
-		'~\'([^\']+)\'~A'            => ['token' => self::TOKEN_WORD,                   'match' => 1],
-		'~"([^"]+)"~A'               => ['token' => self::TOKEN_WORD,                   'match' => 1],
-		'~\.~A'                      => ['token' => self::TOKEN_FIELD_SEPARATOR,        'match' => 0],
-		'~\s*(\[)\s*~A'              => ['token' => self::TOKEN_CONDITION_BEGIN,        'match' => 1],
-		'~\s*(\])\s*~A'              => ['token' => self::TOKEN_CONDITION_END,          'match' => 1],
-        '~\s*(\()\s*~A'              => ['token' => self::TOKEN_GROUP_BEGIN,            'match' => 1],
-        '~\s*(\))\s*~A'              => ['token' => self::TOKEN_GROUP_END,              'match' => 1],
-		'~\s*(,|\|\|?|&&?)\s*~A'     => ['token' => self::TOKEN_CONDITION_SEPARATOR,    'match' => 1],
-		'~\s*(=|<=|>=|<|>)\s*~A'     => ['token' => self::TOKEN_OPERATOR_COMPARISON,    'match' => 1],
+		'~(\w+|\\\[\[\\\]*.\-=])+~A'        => ['token' => self::TOKEN_WORD,                   'match' => 0],
+		'~\'([^\']*)\'~A'                   => ['token' => self::TOKEN_WORD,                   'match' => 1],
+		'~"([^"]*)"~A'                      => ['token' => self::TOKEN_WORD,                   'match' => 1],
+		'~\.~A'                             => ['token' => self::TOKEN_FIELD_SEPARATOR,        'match' => 0],
+		'~\s*(\[)\s*~A'                     => ['token' => self::TOKEN_CONDITION_BEGIN,        'match' => 1],
+		'~\s*(\])\s*~A'                     => ['token' => self::TOKEN_CONDITION_END,          'match' => 1],
+        '~\s*(\()\s*~A'                     => ['token' => self::TOKEN_GROUP_BEGIN,            'match' => 1],
+        '~\s*(\))\s*~A'                     => ['token' => self::TOKEN_GROUP_END,              'match' => 1],
+		'~\s*(,|\|\|?|&&?)\s*~A'            => ['token' => self::TOKEN_CONDITION_SEPARATOR,    'match' => 1],
+		'~\s*(=|<=|>=|<|>|<>|!=)\s*~A'      => ['token' => self::TOKEN_OPERATOR_COMPARISON,    'match' => 1],
+        '~\s*([+\-*^%$#@!])\s*~A'           => ['token' => self::TOKEN_SYMBOL,                 'match' => 1],  // these don't currently have any meaning.
 	];
 
     static $grammar = [
         'start' => [
+            'field_selectors',
+        ],
+        'field_selectors' => [
             'selectors',
+            'field_separator',                               // i.e . -- same a flatten once
+            'selectors field_separator',                     // i.e university.teachers|students.  -- returns all the students and teaches in one list
+            'field_separator field_selectors',               // i.e universities..teachers|students. -- returns all the students and teaches from a list of universities
+            'selectors field_separator field_selectors',
         ],
         'selectors' => [
             'selector',
-            'selector field-separator selectors'
+            'selector selector_operator selectors',
+            'group_begin selectors group_end',
         ],
         'selector' => [
             'word',
-            'word condition',
             'condition',
-            'group-begin selector group-end',
-            'group-begin selector selector-operator selector group-end',
+            'word condition',
         ],
         'condition' => [
-            'condition-begin conditions condition-end',
+            'condition_begin condition_end',                // empty condition is allowed it matches against any non-empty object.
+            'condition_begin conditions condition_end',
         ],
         'conditions' => [
+            'word',
             'word operator word',
-            'word operator conditions',
-            'group-begin conditions group-end',
+            'word operator word condition_operator conditions',
+            'group_begin conditions group_end',
         ],
 
         // leaf nodes
         'word'                  => self::TOKEN_WORD,
-        'group-begin'           => self::TOKEN_GROUP_BEGIN,
-        'group-end'             => self::TOKEN_GROUP_END,
+        'group_begin'           => self::TOKEN_GROUP_BEGIN,
+        'group_end'             => self::TOKEN_GROUP_END,
         'operator'              => self::TOKEN_OPERATOR_COMPARISON,
-        'condition-operator'    => self::TOKEN_CONDITION_SEPARATOR,
-        'selector-operator'     => self::TOKEN_CONDITION_SEPARATOR,
-        'condition-begin'       => self::TOKEN_CONDITION_BEGIN,
-        'condition-end'         => self::TOKEN_CONDITION_END,
-        'field-separator'       => self::TOKEN_FIELD_SEPARATOR,
+        'condition_operator'    => self::TOKEN_CONDITION_SEPARATOR,
+        'selector_operator'     => self::TOKEN_CONDITION_SEPARATOR,
+        'condition_begin'       => self::TOKEN_CONDITION_BEGIN,
+        'condition_end'         => self::TOKEN_CONDITION_END,
+        'field_separator'       => self::TOKEN_FIELD_SEPARATOR,
     ];
 
 
@@ -90,11 +100,11 @@ class SelectorPathParser {
 		return $tokens;
 	}
 
-    public static function parseTokens($tokens) {
+    public static function processTokens($tokens) {
         $grammar = self::$grammar;
 
         $activeStatements = [
-            ['statements' => ['start'], 'offset' => 0, 'processed' => []]
+            ['statements' => ['start'], 'offset' => 0, 'processed' => [], 'stack' => []]
         ];
 
 

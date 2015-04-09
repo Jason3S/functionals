@@ -63,17 +63,25 @@ class SelectorPathParserExceptionTest extends \PHPUnit_Framework_TestCase {
 
     public function testParseTokens() {
         $tests = [
-            'product' => true,
-            '\'product\'' => true,
-            '"product"' => true,
-            'product.name' => true,
-            '(product|item).name' => true,
-            'products[type=55].name' => true,
+            'product'                          => true,
+            '\'product\''                      => true,
+            '"product"'                        => true,
+            'product.name'                     => true,
+            'product."product-name"'           => true,
+            'product.product-name'             => false,  // -'s must be inside of quotes
+            '(product)'                        => true,
+            '(product).name'                   => true,
+            '(product|item).name'              => true,
+            '(teaches|students|staff).[].name' => true,
+            '(teaches|students|staff)..name'   => true,
+            'students.'                        => true,
+            '.'                                => true,
+            'products[type=55].name'           => true,
         ];
 
         foreach ($tests as $testPath => $isSuccessExpected) {
             $tokens = SelectorPathParser::tokenize($testPath);
-            $parsedTokens = SelectorPathParser::parseTokens($tokens);
+            $parsedTokens = SelectorPathParser::processTokens($tokens);
             if ($isSuccessExpected) {
                 $this->assertNotNull($parsedTokens, $testPath);
             } else {
