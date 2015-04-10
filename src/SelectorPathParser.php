@@ -49,6 +49,9 @@ class SelectorPathParser {
         'selectors' => [
             'selector',
             'selector selector_operator selectors',
+            'selector_group',
+        ],
+        'selector_group' => [
             'group_begin selectors group_end',
         ],
         'selector' => [
@@ -67,6 +70,9 @@ class SelectorPathParser {
             'group_begin conditions group_end',
         ],
 
+        '[' => [],  // Used to mark the start of a semantic value example  condition [ ... ]
+        ']' => [],  // Used to mark the end of a semantic value
+
         // leaf nodes
         'word'                  => self::TOKEN_WORD,
         'group_begin'           => self::TOKEN_GROUP_BEGIN,
@@ -78,7 +84,6 @@ class SelectorPathParser {
         'condition_end'         => self::TOKEN_CONDITION_END,
         'field_separator'       => self::TOKEN_FIELD_SEPARATOR,
     ];
-
 
 	public static function tokenize($path) {
 		$tokens = [];
@@ -100,6 +105,36 @@ class SelectorPathParser {
 		return $tokens;
 	}
 
+    protected static function buildStatementTree($processedTokens) {
+        $offset = 0;
+
+        $groupBegin = ['['=>true];
+        $groupEnd   = [']'=>true];
+        $ignore = ['group_begin'=>true, 'condition_begin'=>true,
+                   'group_end'=>true, 'condition_end'=>true];
+
+        $fnMakeTree = function() use (&$fnMakeTree, &$offset, $processedTokens, $groupBegin, $groupEnd, $ignore) {
+            $tree = [];
+
+            while ($offset < count($processedTokens)) {
+                $token = $processedTokens[$offset];
+                $statement = $token['statement'];
+                $offset += 1;
+                if (isset($groupBegin[$statement])) {
+                    $tree[count($tree)-1]['statements'] = $fnMakeTree();
+                } else if (isset($groupEnd[$statement])) {
+                    break;
+                } else if (! isset($ignore[$statement])) {
+                    $tree[] = $token;
+                }
+            }
+
+            return $tree;
+        };
+
+        return $fnMakeTree();
+    }
+
     public static function processTokens($tokens) {
         $grammar = self::$grammar;
 
@@ -113,11 +148,7 @@ class SelectorPathParser {
 
             if ($current['offset'] == count($tokens)) {
                 if (empty($current['statements'])) {
-                    return $current['processed'];
-                } else {
-                    // We ran out of tokens to process, but more statements are expected, so this isn't the right branch.
-                    // Drop it.
-                    continue;
+                    return static::buildStatementTree($current['processed']);
                 }
             }
 
@@ -134,18 +165,28 @@ class SelectorPathParser {
                 $processed[] = [
                     'statement' => $statement
                 ];
-                // Add them in reverse order since we pop them and want the simplest to be processed first.
-                foreach (array_reverse($g) as $statements) {
-                    $statements = explode(' ', $statements);
+
+                if (! empty($g)) {
+                    // Add them in reverse order since we pop them and want the simplest to be processed first.
+                    foreach (array_reverse($g) as $statements) {
+                        $statements = explode(' ', '[ '.$statements . ' ]');
+                        $activeStatements[] = [
+                            'statements' => array_merge($statements, $remainingStatements),
+                            'offset' => $current['offset'],
+                            'processed' => $processed,
+                        ];
+                    }
+                } else {
+                    // We have a no-op grammar statement add the remainder back into the active list.
                     $activeStatements[] = [
-                        'statements' => array_merge($statements, $remainingStatements),
+                        'statements' => $remainingStatements,
                         'offset' => $current['offset'],
                         'processed' => $processed,
                     ];
                 }
             } else {
                 $offset = $current['offset'];
-                if ($g == $tokens[$offset][self::TOKEN]) {
+                if ($offset < count($tokens) && $g == $tokens[$offset][self::TOKEN]) {
                     // We found a matching token.
                     $current['processed'][] = [
                         'statement' => $statement,
