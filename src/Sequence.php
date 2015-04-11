@@ -26,6 +26,14 @@ class Sequence implements \IteratorAggregate {
 		return Sequence(filter($this->getIterator(), $fn));
 	}
 
+    public function values() {
+        return Sequence(values($this->getIterator()));
+    }
+
+    public function keys() {
+        return Sequence(keys($this->getIterator()));
+    }
+
     public function select($path) {
         return Sequence(Selector::make($this->getIterator(), $path));
     }
