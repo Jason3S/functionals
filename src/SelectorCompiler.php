@@ -275,7 +275,7 @@ class SelectorCompiler {
                     break;
                 case 'field':
                     $fieldName = $statement[self::TOKEN][self::VALUE];
-                    $fnChain[] = function ($value, $key) use ($fieldName) { return $key == $fieldName; };
+                    $fnChain[] = function ($value, $key) use ($fieldName) { return (string)$key === (string)$fieldName; };
                     break;
                 case 'condition':
                     $fnConditionChain = static::walkStatementTree($statement['statements']);
