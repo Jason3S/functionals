@@ -89,6 +89,11 @@ function fnChain($functions) {
         $functions = func_get_args();
     }
 
+    // There is only one function, use it instead.
+    if (count($functions) == 1) {
+        return $functions[0];
+    }
+
     $functions = \functionals\toIterator($functions);
 
     return function () use ($functions) {
@@ -97,6 +102,60 @@ function fnChain($functions) {
             $args = [ call_user_func_array($fn, $args) ];
         }
         return array_shift($args);
+    };
+}
+
+/**
+ * Generates a Functions that will:
+ * Call all functions passing the passing the same value, the results will be AND'ed together.
+ * NOTE: this function short circuits and returns on the first false value.
+ * @param $functions -- both fnAnd(fn1, fn2, fn3) and fnAnd(array(fn1, fn2, fn3)) are valid.
+ * @return callable
+ */
+function fnAnd($functions) {
+    if (is_callable($functions)) {
+        $functions = func_get_args();
+    }
+
+    $functions = \functionals\toIterator($functions);
+
+    return function () use ($functions) {
+        $result = true;
+        $args = func_get_args();
+        foreach ($functions as $fn) {
+            $result = $result && call_user_func_array($fn, $args);
+            if (! $result) {
+                break;
+            }
+        }
+        return $result;
+    };
+}
+
+/**
+ * Generates a Functions that will:
+ * Call all functions passing the passing the same value, the results will be OR'ed together.
+ * NOTE: this function short circuits and returns on the first true value.
+ * @param $functions
+ * @return callable
+ */
+function fnOr($functions) {
+    if (is_callable($functions)) {
+        $functions = func_get_args();
+    }
+
+    $functions = \functionals\toIterator($functions);
+
+    return function () use ($functions) {
+        $result = false;
+        $args = func_get_args();
+        foreach ($functions as $fn) {
+            $result = $result || call_user_func_array($fn, $args);
+            if ($result) {
+                break;
+            }
+        }
+        return $result;
     };
 }
 
