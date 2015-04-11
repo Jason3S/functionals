@@ -1,6 +1,8 @@
 <?php
 namespace functionals;
 
+use functionals\Selector\Selector;
+
 function Sequence($iterator) {
 	return Sequence::make($iterator);
 }
@@ -23,6 +25,18 @@ class Sequence implements \IteratorAggregate {
 	public function filter(callable $fn) {
 		return Sequence(filter($this->getIterator(), $fn));
 	}
+
+    public function select($path) {
+        return Sequence(Selector::make($this->getIterator(), $path));
+    }
+
+    public function limit($n) {
+        return Sequence(limit($this->getIterator(), $n));
+    }
+
+    public function offset($n) {
+        return Sequence(offset($this->getIterator(), $n));
+    }
 
 	public function reduce($init, callable $fn) {
 		$current = $init;

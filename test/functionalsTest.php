@@ -25,5 +25,10 @@ class functionalsTest extends \PHPUnit_Framework_TestCase {
 		$object = (object)static::$furniture[0]; // get an object.
 		$this->assertInstanceOf('Iterator', toIterator($object));
 		$this->assertEquals($object, (object)(\iterator_to_array(toIterator($object))));
+
+        // Test things that we do NOT want to be iterators.
+        $this->assertNull(toIterator(5), '5');
+        $string = 'hello';
+        $this->assertNull(toIterator($string), 'String: '.$string);
 	}
 }

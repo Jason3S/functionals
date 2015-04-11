@@ -18,13 +18,7 @@ function toIterator($iterator) {
 		return new \ArrayIterator($iterator);
 	}
 
-	// Generate one
-	$fn = function() use ($iterator) {
-		foreach ($iterator as $key => $value) {
-			yield $key => $value;
-		}
-	};
-	return $fn();
+    return null;
 }
 
 /**
@@ -102,5 +96,52 @@ function keys(\Traversable $traversable) {
 	foreach ($traversable as $key => $value) {
 		yield $key;
 	}
+}
+
+/**
+ * stop after limit number of items.
+ *
+ * @param \Traversable $traversable
+ * @param int $limit
+ * @return \Generator
+ */
+function limit(\Traversable $traversable, $limit) {
+    if ($limit > 0) {
+        foreach ($traversable as $key => $value) {
+            yield $key => $value;
+            if (--$limit < 1) {
+                break;
+            }
+        }
+    }
+}
+
+/**
+ * Skip offset number of items
+ *
+ * @param \Traversable $traversable
+ * @param $offset
+ * @return \Generator
+ */
+function offset(\Traversable $traversable, $offset) {
+    foreach ($traversable as $key => $value) {
+        if ($offset-- < 1) {
+            yield $key => $value;
+        }
+    }
+}
+
+/**
+ * @param \Traversable $traversable
+ * @return \Generator
+ */
+function children(\Traversable $traversable) {
+    foreach ($traversable as $parent) {
+        if ($iter = toIterator($parent)) {
+            foreach ($iter as $key=>$value) {
+                yield $key => $value;
+            }
+        }
+    }
 }
 

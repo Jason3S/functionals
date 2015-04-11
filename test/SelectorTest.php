@@ -11,6 +11,7 @@ namespace functionals\test;
 
 use functionals\Selector\Selector;
 use functionals\Sequence;
+use functionals\FnGen as fn;
 
 class SelectorsTest extends \PHPUnit_Framework_TestCase {
     static $sampleData = [
@@ -59,6 +60,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
                             'minimum_subscription' => '3 months',
                             'subscription' => true,
                         ],
+                        [],
                     ],
                     'id' => 2848292,
                     'extra' => [
@@ -76,8 +78,33 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSelector() {
+        $a = Selector::make(static::$sampleData, '.')->toArray();
+        $b = Sequence::make(static::$sampleData)->select('.')->toArray();
+        $this->assertEquals($a, $b);
+        $this->assertNotNull($a);
+
+        $a = Sequence::make(static::$sampleData)->select('..')->toArray();
+        $b = Sequence::make(static::$sampleData)->select('.')->select('.')->toArray();
+        $this->assertEquals($a, $b);
+        $this->assertNotNull($a);
+
+        $c = Sequence::make(static::$sampleData)->select('.products..price_options')->toArray();
+        $d = Sequence::make(static::$sampleData)->select('...price_options')->toArray();
+        $e = Sequence::make(static::$sampleData)->select('...price_options.')->toArray();
+        $f = Sequence::make(static::$sampleData)->select('...price_options.[]')->toArray();
+        $this->assertEquals($c, $d);
+        $this->assertEquals($d['price_options'], $e);
+        $this->assertNotEquals($e, $f);
+        $g = Sequence::make($e)->filter(fn\fnNotEmpty())->toArray();
+        $this->assertEquals($g, $f);
+
+        $d = Sequence::make(static::$sampleData)->select('.')->offset(1)->select('..[]')->toArray();
+
+        $a = $c;
+
 	    // products[].price_options[]
 
+        /*
         $selector = Selector::make(static::$sampleData)
             ->selectField('products')
 	        ->selectChildren()
@@ -103,6 +130,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
 
 	    $this->assertEquals(Sequence::make(static::$sampleData[0]['products'][0]['price_options'])->map(\functionals\FnGen\fnExtract('name'))->toArray(), $values);
 
+        */
     }
 
 }

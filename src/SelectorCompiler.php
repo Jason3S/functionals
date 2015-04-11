@@ -1,12 +1,14 @@
 <?php
 namespace functionals\Selector;
 
+use functionals\FnGen as fn;
+use functionals as f;
 
-use SebastianBergmann\GlobalState\Exception;
 
-class SelectorPathParser {
+class SelectorCompiler {
     const TOKEN_START = 'start';
 	const TOKEN_WORD = 'word';
+    const TOKEN_REGEX = 'regex';
 	const TOKEN_FIELD_SEPARATOR = ',';
 	const TOKEN_CONDITION_BEGIN = '[';
 	const TOKEN_CONDITION_END = ']';
@@ -25,6 +27,7 @@ class SelectorPathParser {
 		'~(\w+|\\\[\[\\\]*.\-=])+~A'        => ['token' => self::TOKEN_WORD,                   'match' => 0],
 		'~\'([^\']*)\'~A'                   => ['token' => self::TOKEN_WORD,                   'match' => 1],
 		'~"([^"]*)"~A'                      => ['token' => self::TOKEN_WORD,                   'match' => 1],
+        '~/([^/]|\\\/)*/[i]?~A'             => ['token' => self::TOKEN_REGEX,                  'match' => 0],
 		'~\.~A'                             => ['token' => self::TOKEN_FIELD_SEPARATOR,        'match' => 0],
 		'~\s*(\[)\s*~A'                     => ['token' => self::TOKEN_CONDITION_BEGIN,        'match' => 1],
 		'~\s*(\])\s*~A'                     => ['token' => self::TOKEN_CONDITION_END,          'match' => 1],
@@ -41,10 +44,12 @@ class SelectorPathParser {
         ],
         'field_selectors' => [
             'selectors',
+            'child_selector',
+            'selectors child_selector',                     // i.e university.teachers|students.  -- returns all the students and teaches in one list
+        ],
+        'child_selector' => [
             'field_separator',                               // i.e . -- same a flatten once
-            'selectors field_separator',                     // i.e university.teachers|students.  -- returns all the students and teaches in one list
             'field_separator field_selectors',               // i.e universities..teachers|students. -- returns all the students and teaches from a list of universities
-            'selectors field_separator field_selectors',
         ],
         'selectors' => [
             'selector',
@@ -55,9 +60,9 @@ class SelectorPathParser {
             'group_begin selectors group_end',
         ],
         'selector' => [
-            'word',
+            'field',
             'condition',
-            'word condition',
+            'field condition',
         ],
         'condition' => [
             'condition_begin condition_end',                // empty condition is allowed it matches against any non-empty object.
@@ -65,16 +70,25 @@ class SelectorPathParser {
         ],
         'conditions' => [
             'word',
-            'word operator word',
-            'word operator word condition_operator conditions',
+            'word operator condition_expression',
+            'word operator condition_expression condition_operator conditions',
+            'condition_group',
+        ],
+        'condition_group' => [
             'group_begin conditions group_end',
+        ],
+        'condition_expression' => [
+            'word',
+            'regex',
         ],
 
         '[' => [],  // Used to mark the start of a semantic value example  condition [ ... ]
         ']' => [],  // Used to mark the end of a semantic value
 
         // leaf nodes
+        'field'                 => self::TOKEN_WORD,
         'word'                  => self::TOKEN_WORD,
+        'regex'                 => self::TOKEN_REGEX,
         'group_begin'           => self::TOKEN_GROUP_BEGIN,
         'group_end'             => self::TOKEN_GROUP_END,
         'operator'              => self::TOKEN_OPERATOR_COMPARISON,
@@ -204,7 +218,80 @@ class SelectorPathParser {
     }
 
 	public static function parsePath($path) {
+        $tokens = static::tokenize($path);
+        $tokenTree = static::processTokens($tokens);
+        return $tokenTree;
 	}
+
+
+    /**
+     * @param $tokenTree
+     * @return callable[]
+     */
+    public static function walkTokenTree($tokenTree) {
+        $fnChain = [];
+
+        foreach ($tokenTree as $statement) {
+            switch ($statement['statement']) {
+                case 'start':
+                    $fnChain = static::walkTokenTree($statement['statements']);
+                    break;
+                case 'field_separator':
+                    $fnChain[] = fn\fnChildren();
+                    break;
+                case 'field':
+                    $fieldName = $statement[self::TOKEN][self::VALUE];
+                    $fnChain[] = fn\fnFilter(function ($value, $key) use ($fieldName) { return $key == $fieldName; });
+                    break;
+                case 'condition':
+                    $fnConditionChain = static::walkTokenTree($statement['statements']);
+                    if (empty($fnConditionChain)) {
+                        // return true if it can be iterated over
+                        $fnConditionChain = function ($value) {
+                            return ! empty($value) && (is_object($value) || is_array($value));
+                        };
+                    }
+                    $fnChain[] = fn\fnFilter($fnConditionChain);
+                    break;
+
+                // @todo
+                case 'field_selectors':
+                case 'child_selector':
+                case 'selector_group':
+                case 'selectors':
+                case 'selector':
+                case 'conditions':
+                case 'condition_group':
+                case 'condition_expression':
+                default:
+                    if (! empty($statement['statements'])) {
+                        $fnChain = array_merge($fnChain, static::walkTokenTree($statement['statements']));
+                    }
+                    break;
+            }
+        }
+
+        return $fnChain;
+    }
+
+
+    /**
+     * @param $tokenTree
+     * @return callable
+     */
+    public static function compileTokenTree($tokenTree) {
+        $fnChain = static::walkTokenTree($tokenTree);
+        return fn\fnChain($fnChain);
+    }
+
+        /**
+     * @param string $path
+     * @return callable
+     */
+    public static function compilePath($path) {
+        $tokenTree = static::parsePath($path);
+        return static::compileTokenTree($tokenTree);
+    }
 
 }
 

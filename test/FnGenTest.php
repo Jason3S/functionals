@@ -11,6 +11,20 @@ class FnGenTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals('Hello', $fn('hello'));
 	}
 
+    public function testFnChain() {
+        $fnInc = function ($n) {
+            return $n + 1;
+        };
 
+        $fnChain = FnGen\fnChain($fnInc, $fnInc, $fnInc, $fnInc, $fnInc);
+        $this->assertEquals(10, $fnChain(5));
+
+        $fnChain = FnGen\fnChain(FnGen\fnIdentity(), FnGen\fnIdentity(), FnGen\fnIdentity(), FnGen\fnIdentity());
+        $this->assertEquals(10, $fnChain(10));
+    }
+
+    public function testFnChildren() {
+
+    }
 
 }

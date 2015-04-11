@@ -1,6 +1,8 @@
 <?php
 namespace functionals\FnGen;
 
+use functionals as f;
+
 /**
  * generate an identity function
  *
@@ -78,3 +80,68 @@ function fnFieldGte($fieldName, $value) {
     };
 }
 
+/**
+ * @param callable|callable[] $functions
+ * @return callable
+ */
+function fnChain($functions) {
+    if (is_callable($functions)) {
+        $functions = func_get_args();
+    }
+
+    $functions = \functionals\toIterator($functions);
+
+    return function () use ($functions) {
+        $args = func_get_args();
+        foreach ($functions as $fn) {
+            $args = [ call_user_func_array($fn, $args) ];
+        }
+        return array_shift($args);
+    };
+}
+
+/**
+ * @return callable
+ */
+function fnChildren() {
+    return function ($iterator) {
+        return f\children($iterator);
+    };
+}
+
+/**
+ * @param $fn
+ * @return callable
+ */
+function fnFilter($fn) {
+    return function ($iterator) use ($fn) {
+        return f\filter($iterator, $fn);
+    };
+}
+
+/**
+ * @return callable
+ */
+function fnNotEmpty() {
+    return function ($value) {
+        return ! empty($value);
+    };
+}
+
+/**
+ * @return callable
+ */
+function fnEmpty() {
+    return function ($value) {
+        return empty($value);
+    };
+}
+
+/**
+ * @return callable
+ */
+function fnIsSet() {
+    return function ($value) {
+        return isset($value);
+    };
+}

@@ -36,10 +36,8 @@ function selectFilter($iterator, $fn) {
 }
 
 function selectChildren($iterator) {
-	foreach ($iterator as $values) {
-		foreach ($values as $key => $value) {
-			yield $key => $value;
-		}
+	foreach ($iterator as $key => $value) {
+        yield $key => $value;
 	}
 }
 
@@ -50,6 +48,9 @@ function Selector($iterator, $path = null) {
 
 
 class Selector implements \IteratorAggregate {
+    static $compiledSelectors = [];
+    static $compiledSelectorsDesiredMaxSize = 100;
+    static $compiledSelectorsLimit = 110;
 
     protected $iterator;
 
@@ -77,10 +78,50 @@ class Selector implements \IteratorAggregate {
         return iterator_to_array($this->iterator);
     }
 
+    public static function calcPathKey($path) {
+        if (strlen($path) > 32) {
+            return md5($path);
+        }
+        return $path;
+    }
+
+    /**
+     * @param string $path
+     * @return null|callable
+     */
+    public static function getCachedPath($path) {
+        $cacheKey = static::calcPathKey($path);
+        if (isset(static::$compiledSelectors[$cacheKey])) {
+            return static::$compiledSelectors[$cacheKey];
+        }
+        return null;
+    }
+
+    /**
+     * @param string $path
+     * @param callable $compiledPath
+     */
+    public static function cachePath($path, callable $compiledPath) {
+        $cacheKey = static::calcPathKey($path);
+        static::$compiledSelectors[$cacheKey] = $compiledPath;
+        if (count(static::$compiledSelectors) > static::$compiledSelectorsLimit) {
+            // Keep the last n.
+            static::$compiledSelectors = array_slice(static::$compiledSelectors, - static::$compiledSelectorsDesiredMaxSize);
+        }
+    }
+
 	public static function applyPath($selector, $path) {
+        $fnSelector = static::getCachedPath($path);
 
+        if (!$fnSelector) {
+            $fnCompiledPath = SelectorCompiler::compilePath($path);
+            $fnSelector = function($iterator) use ($fnCompiledPath) {
+                return Selector($fnCompiledPath($iterator));
+            };
+            static::cachePath($path, $fnSelector);
+        }
 
-		return $selector;
+        return $fnSelector($selector);
 	}
 
 
