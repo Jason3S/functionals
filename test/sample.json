@@ -1,0 +1,2857 @@
+[
+  {
+    "dataFound": 1,
+    "mask": 0,
+    "word": "walk",
+    "wordSets": [
+      {
+        "srcWordId": "12774",
+        "entries": [
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "5-v",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "8941",
+            "subEntries": [
+              {
+                "dstWords": "wandelen",
+                "dstCodes": "-5v",
+                "dstWordId": "13840",
+                "dstDefnr": "0",
+                "dcount": "117",
+                "examples": null,
+                "dstVerbForms": [
+                  "wandel",
+                  "wandelt",
+                  "wandelde",
+                  "wandelden",
+                  "gewandeld"
+                ]
+              },
+              {
+                "dstWords": "lopen",
+                "dstCodes": "-5v",
+                "dstWordId": "13837",
+                "dstDefnr": "0",
+                "dcount": "56",
+                "examples": null,
+                "dstVerbForms": [
+                  "loop",
+                  "loopt",
+                  "liep",
+                  "liepen",
+                  "gelopen"
+                ]
+              },
+              {
+                "dstWords": "slenteren",
+                "dstCodes": "-5v",
+                "dstWordId": "13839",
+                "dstDefnr": "0",
+                "dcount": "27",
+                "examples": null,
+                "dstVerbForms": [
+                  "slenter",
+                  "slentert",
+                  "slenterde",
+                  "slenterden",
+                  "geslenterd"
+                ]
+              },
+              {
+                "dstWords": "kuieren",
+                "dstCodes": "-*5v",
+                "dstWordId": "13836",
+                "dstDefnr": "0",
+                "dcount": "14",
+                "examples": null,
+                "dstVerbForms": [
+                  "kuier",
+                  "kuiert",
+                  "kuierde",
+                  "kuierden",
+                  "gekuierd"
+                ]
+              },
+              {
+                "dstWords": "rondslenteren",
+                "dstCodes": "5v",
+                "dstWordId": "13838",
+                "dstDefnr": "0",
+                "dcount": "9",
+                "examples": null,
+                "dstVerbForms": [
+                  "slenter rond",
+                  "slentert rond",
+                  "slenterde rond",
+                  "slenterden rond",
+                  "rondgeslenterd"
+                ]
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "stroll",
+                "wordnr": "12770"
+              },
+              {
+                "word": "promenade",
+                "wordnr": "12772"
+              },
+              {
+                "word": "saunter",
+                "wordnr": "11551"
+              },
+              {
+                "word": "amble",
+                "wordnr": "12771"
+              },
+              {
+                "word": "parade",
+                "wordnr": "11553"
+              }
+            ],
+            "srcVerbForms": [
+              "walks",
+              "walked",
+              "walking"
+            ]
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "6*-",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "37635",
+            "subEntries": [
+              {
+                "dstWords": "wandeling",
+                "dstCodes": "2-*",
+                "dstWordId": "55090",
+                "dstDefnr": "0",
+                "dcount": "25",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "ommetje",
+                "dstCodes": "4-",
+                "dstWordId": "55092",
+                "dstDefnr": "0",
+                "dcount": "22",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "wandeltocht",
+                "dstCodes": "1",
+                "dstWordId": "44190",
+                "dstDefnr": "0",
+                "dcount": "6",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "kuier",
+                "dstCodes": "1-",
+                "dstWordId": "55091",
+                "dstDefnr": "0",
+                "dcount": "5",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "omloop",
+                "dstCodes": "1-",
+                "dstWordId": "52491",
+                "dstDefnr": "0",
+                "dcount": "4",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "loopje",
+                "dstCodes": "4-",
+                "dstWordId": "51846",
+                "dstDefnr": "0",
+                "dcount": "4",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "uitje",
+                "dstCodes": "4<-",
+                "dstWordId": "54259",
+                "dstDefnr": "0",
+                "dcount": "3",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "tochtje",
+                "dstCodes": "-4f",
+                "dstWordId": "52454",
+                "dstDefnr": "0",
+                "dcount": "0",
+                "examples": null,
+                "dstVerbForms": []
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "hiking tour",
+                "wordnr": "33565"
+              },
+              {
+                "word": "promenade",
+                "wordnr": "12772"
+              },
+              {
+                "word": "stroll",
+                "wordnr": "12770"
+              },
+              {
+                "word": "outing",
+                "wordnr": "39037"
+              },
+              {
+                "word": "hike",
+                "wordnr": "14143"
+              },
+              {
+                "word": "short walk",
+                "wordnr": "47036"
+              },
+              {
+                "word": "ramble",
+                "wordnr": "42613"
+              },
+              {
+                "word": "tramp",
+                "wordnr": "28853"
+              }
+            ],
+            "srcVerbForms": []
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "5-v",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "11698",
+            "subEntries": [
+              {
+                "dstWords": "gaan",
+                "dstCodes": "-5v",
+                "dstWordId": "17532",
+                "dstDefnr": "0",
+                "dcount": "169",
+                "examples": null,
+                "dstVerbForms": [
+                  "ga",
+                  "gaat",
+                  "ging",
+                  "gingen",
+                  "gegaan"
+                ]
+              },
+              {
+                "dstWords": "lopen",
+                "dstCodes": "-5v",
+                "dstWordId": "13837",
+                "dstDefnr": "0",
+                "dcount": "81",
+                "examples": null,
+                "dstVerbForms": [
+                  "loop",
+                  "loopt",
+                  "liep",
+                  "liepen",
+                  "gelopen"
+                ]
+              },
+              {
+                "dstWords": "zich voortbewegen",
+                "dstCodes": "*5",
+                "dstWordId": "17817",
+                "dstDefnr": "0",
+                "dcount": "27",
+                "examples": null,
+                "dstVerbForms": []
+              },
+              {
+                "dstWords": "stappen",
+                "dstCodes": "-5v",
+                "dstWordId": "11635",
+                "dstDefnr": "0",
+                "dcount": "26",
+                "examples": null,
+                "dstVerbForms": [
+                  "stap",
+                  "stapt",
+                  "stapte",
+                  "stapten",
+                  "gestapt"
+                ]
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "move on",
+                "wordnr": "11078"
+              },
+              {
+                "word": "be going to",
+                "wordnr": "15638"
+              },
+              {
+                "word": "go",
+                "wordnr": "3131"
+              },
+              {
+                "word": "move",
+                "wordnr": "12157"
+              }
+            ],
+            "srcVerbForms": [
+              "walks",
+              "walked",
+              "walking"
+            ]
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "6-",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "32155",
+            "subEntries": [
+              {
+                "dstWords": "wandelroute",
+                "dstCodes": "3*",
+                "dstWordId": "44906",
+                "dstDefnr": "0",
+                "dcount": "2",
+                "examples": null,
+                "dstVerbForms": []
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "scenic route",
+                "wordnr": "41079"
+              }
+            ],
+            "srcVerbForms": []
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "5-v",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "11611",
+            "subEntries": [
+              {
+                "dstWords": "gaan",
+                "dstCodes": "-5v",
+                "dstWordId": "17532",
+                "dstDefnr": "0",
+                "dcount": "460",
+                "examples": null,
+                "dstVerbForms": [
+                  "ga",
+                  "gaat",
+                  "ging",
+                  "gingen",
+                  "gegaan"
+                ]
+              },
+              {
+                "dstWords": "zich begeven",
+                "dstCodes": "*5",
+                "dstWordId": "17695",
+                "dstDefnr": "0",
+                "dcount": "64",
+                "examples": null,
+                "dstVerbForms": []
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "be going to",
+                "wordnr": "15638"
+              },
+              {
+                "word": "go",
+                "wordnr": "3131"
+              },
+              {
+                "word": "move",
+                "wordnr": "12157"
+              },
+              {
+                "word": "pass",
+                "wordnr": "9431"
+              },
+              {
+                "word": "run",
+                "wordnr": "9625"
+              }
+            ],
+            "srcVerbForms": [
+              "walks",
+              "walked",
+              "walking"
+            ]
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "5*-v",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "10422",
+            "subEntries": [
+              {
+                "dstWords": "stapvoets gaan",
+                "dstCodes": "*5v",
+                "dstWordId": "16018",
+                "dstDefnr": "0",
+                "dcount": "14",
+                "examples": null,
+                "dstVerbForms": [
+                  "ga stapvoets",
+                  "gaat stapvoets",
+                  "ging stapvoets",
+                  "gingen stapvoets",
+                  "stapvoets gegaan"
+                ]
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [],
+            "srcVerbForms": [
+              "walks",
+              "walked",
+              "walking"
+            ]
+          },
+          {
+            "srcWord": "walk",
+            "srcWordId": "12774",
+            "srcCodes": "5-v",
+            "srcCodesForWord": "5-.*69",
+            "srcRel": "C",
+            "bgpnr": "10663",
+            "subEntries": [
+              {
+                "dstWords": "toelopen",
+                "dstCodes": "*5v",
+                "dstWordId": "16344",
+                "dstDefnr": "0",
+                "dcount": "5",
+                "examples": null,
+                "dstVerbForms": [
+                  "loop toe",
+                  "loopt toe",
+                  "liep toe",
+                  "liepen toe",
+                  "toegelopen"
+                ]
+              }
+            ],
+            "skip": false,
+            "defnr": "0",
+            "srcMask": "63",
+            "srcStarWords": [
+              {
+                "word": "walk there",
+                "wordnr": "14673"
+              },
+              {
+                "word": "come up to",
+                "wordnr": "14675"
+              },
+              {
+                "word": "walk to",
+                "wordnr": "14676"
+              },
+              {
+                "word": "come running to",
+                "wordnr": "14674"
+              }
+            ],
+            "srcVerbForms": [
+              "walks",
+              "walked",
+              "walking"
+            ]
+          }
+        ],
+        "dWordList": [
+          {
+            "wordnr": "12774",
+            "dcode": "8",
+            "word": "walking",
+            "mask": "63"
+          },
+          {
+            "wordnr": "12774",
+            "dcode": "10",
+            "word": "walkable",
+            "mask": "63"
+          },
+          {
+            "wordnr": "12774",
+            "dcode": "13",
+            "word": "walks",
+            "mask": "63"
+          }
+        ],
+        "srcWord": "walk",
+        "langmask": "63",
+        "rel": "C",
+        "srcDefs": [
+          null
+        ],
+        "dstDefs": [
+          null
+        ],
+        "defs": [
+          {
+            "defnr": "22308",
+            "def": "(baseball) an advance to first base by a batter who receives four balls",
+            "sourceid": "3",
+            "examples": []
+          },
+          {
+            "defnr": "23116",
+            "def": "the act of traveling by foot",
+            "sourceid": "3",
+            "examples": []
+          },
+          {
+            "defnr": "23122",
+            "def": "the act of walking somewhere",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "23122",
+                "example": "he took a walk after lunch",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "23133",
+            "def": "a slow gait of a horse in which two feet are always on the ground",
+            "sourceid": "3",
+            "examples": []
+          },
+          {
+            "defnr": "24698",
+            "def": "careers in general",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "24698",
+                "example": "it happens in all walks of life",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "47145",
+            "def": "a path set aside for walking",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "47145",
+                "example": "after the blizzard he shoveled the front walk",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "49526",
+            "def": "manner of walking",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "49526",
+                "example": "he had a funny walk",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "109256",
+            "def": "obtain a base on balls",
+            "sourceid": "3",
+            "examples": []
+          },
+          {
+            "defnr": "109408",
+            "def": "give a base on balls to",
+            "sourceid": "3",
+            "examples": []
+          },
+          {
+            "defnr": "113208",
+            "def": "take a walk; go for a walk; walk for pleasure",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113208",
+                "example": "The lovers held hands while walking",
+                "sourceid": "3"
+              },
+              {
+                "defnr": "113208",
+                "example": "We like to walk every Sunday",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "113336",
+            "def": "use one's feet to advance; advance by steps",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113336",
+                "example": "We walked instead of driving",
+                "sourceid": "3"
+              },
+              {
+                "defnr": "113336",
+                "example": "She walks with a slight limp",
+                "sourceid": "3"
+              },
+              {
+                "defnr": "113336",
+                "example": "The patient cannot walk yet",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "113341",
+            "def": "make walk",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113341",
+                "example": "He walks the horse up the mountain",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "113342",
+            "def": "accompany or escort",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113342",
+                "example": "I'll walk you to your car",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "113369",
+            "def": "traverse or cover by walking",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113369",
+                "example": "Paul walked the streets of Damascus",
+                "sourceid": "3"
+              },
+              {
+                "defnr": "113369",
+                "example": "She walks 3 miles every day",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "113619",
+            "def": "walk at a pace",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "113619",
+                "example": "The horses walked across the meadow",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "116163",
+            "def": "be or act in association with",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "116163",
+                "example": "We must walk with our dispossessed brothers and sisters",
+                "sourceid": "3"
+              }
+            ]
+          },
+          {
+            "defnr": "116398",
+            "def": "live or behave in a specified manner",
+            "sourceid": "3",
+            "examples": [
+              {
+                "defnr": "116398",
+                "example": "walk in sadness",
+                "sourceid": "3"
+              }
+            ]
+          }
+        ],
+        "synonyms": [
+          {
+            "word": "walking",
+            "group": "0",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": ""
+          },
+          {
+            "word": "locomotion",
+            "group": "0",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "travel",
+            "group": "0",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "base on balls",
+            "group": "1",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "pass",
+            "group": "1",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": ""
+          },
+          {
+            "word": "accomplishment",
+            "group": "1",
+            "seq": "3",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "achievement",
+            "group": "1",
+            "seq": "4",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "manner of walking",
+            "group": "2",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "carriage",
+            "group": "2",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "bearing",
+            "group": "2",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "posture",
+            "group": "2",
+            "seq": "4",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "traveling",
+            "group": "3",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "travelling",
+            "group": "3",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "walkway",
+            "group": "4",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "paseo",
+            "group": "4",
+            "seq": "2",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "path",
+            "group": "4",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "gait",
+            "group": "5",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "walk of life",
+            "group": "6",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "career",
+            "group": "6",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "calling",
+            "group": "6",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "vocation",
+            "group": "6",
+            "seq": "4",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "travel",
+            "group": "7",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "go",
+            "group": "7",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "move",
+            "group": "7",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "locomote",
+            "group": "7",
+            "seq": "4",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "walk around",
+            "group": "7",
+            "seq": "5",
+            "indict": "0",
+            "relcodes": "r"
+          },
+          {
+            "word": "walk about",
+            "group": "7",
+            "seq": "6",
+            "indict": "1",
+            "relcodes": "r"
+          },
+          {
+            "word": "traverse",
+            "group": "8",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "track",
+            "group": "8",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "cover",
+            "group": "8",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "cross",
+            "group": "8",
+            "seq": "4",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "pass over",
+            "group": "8",
+            "seq": "5",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "get over",
+            "group": "8",
+            "seq": "6",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "get across",
+            "group": "8",
+            "seq": "7",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "cut through",
+            "group": "8",
+            "seq": "8",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "cut across",
+            "group": "8",
+            "seq": "9",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "accompany",
+            "group": "9",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "score",
+            "group": "10",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "hit",
+            "group": "10",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "tally",
+            "group": "10",
+            "seq": "3",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "rack up",
+            "group": "10",
+            "seq": "4",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "behave",
+            "group": "11",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "comport",
+            "group": "11",
+            "seq": "2",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "take the air",
+            "group": "12",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": ""
+          },
+          {
+            "word": "play",
+            "group": "13",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "consociate",
+            "group": "14",
+            "seq": "1",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "associate",
+            "group": "14",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "compel",
+            "group": "15",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "oblige",
+            "group": "15",
+            "seq": "2",
+            "indict": "1",
+            "relcodes": "<"
+          },
+          {
+            "word": "obligate",
+            "group": "15",
+            "seq": "3",
+            "indict": "0",
+            "relcodes": "<"
+          },
+          {
+            "word": "pace",
+            "group": "16",
+            "seq": "1",
+            "indict": "1",
+            "relcodes": "<"
+          }
+        ],
+        "antonyms": [
+          {
+            "word": "ride",
+            "indict": "1"
+          }
+        ],
+        "tranMatrix": {
+          "Noun": {
+            "kuier": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "loopje": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "lopen": [
+              {
+                "translation": "coming and going",
+                "indirect": "1"
+              },
+              {
+                "translation": "running",
+                "indirect": "1"
+              },
+              {
+                "translation": "trotting",
+                "indirect": "1"
+              },
+              {
+                "translation": "walking",
+                "indirect": "1"
+              },
+              {
+                "translation": "walking around",
+                "indirect": "1"
+              }
+            ],
+            "omloop": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "being in circulation",
+                "indirect": "1"
+              },
+              {
+                "translation": "circulation",
+                "indirect": "1"
+              }
+            ],
+            "ommetje": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "stappen": [
+              {
+                "translation": "footsteps",
+                "indirect": "1"
+              }
+            ],
+            "tochtje": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "drive",
+                "indirect": "1"
+              },
+              {
+                "translation": "excursion",
+                "indirect": "1"
+              },
+              {
+                "translation": "feat",
+                "indirect": "1"
+              },
+              {
+                "translation": "journey",
+                "indirect": "1"
+              },
+              {
+                "translation": "passage",
+                "indirect": "1"
+              },
+              {
+                "translation": "tour",
+                "indirect": "1"
+              },
+              {
+                "translation": "trick",
+                "indirect": "1"
+              },
+              {
+                "translation": "trip",
+                "indirect": "1"
+              },
+              {
+                "translation": "voyage",
+                "indirect": "1"
+              }
+            ],
+            "uitje": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "drive",
+                "indirect": "1"
+              },
+              {
+                "translation": "excursion",
+                "indirect": "1"
+              },
+              {
+                "translation": "feat",
+                "indirect": "1"
+              },
+              {
+                "translation": "journey",
+                "indirect": "1"
+              },
+              {
+                "translation": "passage",
+                "indirect": "1"
+              },
+              {
+                "translation": "trick",
+                "indirect": "1"
+              },
+              {
+                "translation": "trip",
+                "indirect": "1"
+              },
+              {
+                "translation": "voyage",
+                "indirect": "1"
+              }
+            ],
+            "wandeling": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "wandelroute": [
+              {
+                "translation": "scenic route",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "wandeltocht": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              },
+              {
+                "translation": "hiking tour",
+                "indirect": "0"
+              },
+              {
+                "translation": "outing",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "ramble",
+                "indirect": "0"
+              },
+              {
+                "translation": "short walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "tramp",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "walking-tour",
+                "indirect": "1"
+              }
+            ],
+            "": [
+              {
+                "translation": "base on balls",
+                "indirect": "0"
+              },
+              {
+                "translation": "manner of walking",
+                "indirect": "0"
+              },
+              {
+                "translation": "paseo",
+                "indirect": "0"
+              },
+              {
+                "translation": "pass",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk of life",
+                "indirect": "0"
+              },
+              {
+                "translation": "walking",
+                "indirect": "0"
+              },
+              {
+                "translation": "walkway",
+                "indirect": "0"
+              }
+            ]
+          },
+          "Verb": {
+            "gaan": [
+              {
+                "translation": "be going to",
+                "indirect": "0"
+              },
+              {
+                "translation": "go",
+                "indirect": "0"
+              },
+              {
+                "translation": "move",
+                "indirect": "0"
+              },
+              {
+                "translation": "move on",
+                "indirect": "0"
+              },
+              {
+                "translation": "pass",
+                "indirect": "0"
+              },
+              {
+                "translation": "run",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "break up",
+                "indirect": "1"
+              },
+              {
+                "translation": "depart",
+                "indirect": "1"
+              },
+              {
+                "translation": "go",
+                "indirect": "1"
+              },
+              {
+                "translation": "go away",
+                "indirect": "1"
+              },
+              {
+                "translation": "leave",
+                "indirect": "1"
+              }
+            ],
+            "kuieren": [
+              {
+                "translation": "amble",
+                "indirect": "0"
+              },
+              {
+                "translation": "parade",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "lopen": [
+              {
+                "translation": "amble",
+                "indirect": "0"
+              },
+              {
+                "translation": "be going to",
+                "indirect": "0"
+              },
+              {
+                "translation": "go",
+                "indirect": "0"
+              },
+              {
+                "translation": "move",
+                "indirect": "0"
+              },
+              {
+                "translation": "move on",
+                "indirect": "0"
+              },
+              {
+                "translation": "parade",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "flow",
+                "indirect": "1"
+              },
+              {
+                "translation": "run",
+                "indirect": "1"
+              },
+              {
+                "translation": "step",
+                "indirect": "1"
+              },
+              {
+                "translation": "stream",
+                "indirect": "1"
+              },
+              {
+                "translation": "tread",
+                "indirect": "1"
+              }
+            ],
+            "rondslenteren": [
+              {
+                "translation": "amble",
+                "indirect": "0"
+              },
+              {
+                "translation": "parade",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "knock about",
+                "indirect": "1"
+              },
+              {
+                "translation": "lounge about",
+                "indirect": "1"
+              },
+              {
+                "translation": "saunter about",
+                "indirect": "1"
+              },
+              {
+                "translation": "walk about",
+                "indirect": "1"
+              },
+              {
+                "translation": "walk round",
+                "indirect": "1"
+              }
+            ],
+            "slenteren": [
+              {
+                "translation": "amble",
+                "indirect": "0"
+              },
+              {
+                "translation": "parade",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "1"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "1"
+              }
+            ],
+            "stappen": [
+              {
+                "translation": "be going to",
+                "indirect": "0"
+              },
+              {
+                "translation": "go",
+                "indirect": "0"
+              },
+              {
+                "translation": "move",
+                "indirect": "0"
+              },
+              {
+                "translation": "move on",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "be on the razzle",
+                "indirect": "1"
+              },
+              {
+                "translation": "be on the spree",
+                "indirect": "1"
+              },
+              {
+                "translation": "feast",
+                "indirect": "1"
+              },
+              {
+                "translation": "going out",
+                "indirect": "1"
+              },
+              {
+                "translation": "revel",
+                "indirect": "1"
+              }
+            ],
+            "stapvoets gaan": [
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "toelopen": [
+              {
+                "translation": "come running to",
+                "indirect": "0"
+              },
+              {
+                "translation": "come up to",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk there",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk to",
+                "indirect": "0"
+              }
+            ],
+            "wandelen": [
+              {
+                "translation": "amble",
+                "indirect": "0"
+              },
+              {
+                "translation": "parade",
+                "indirect": "0"
+              },
+              {
+                "translation": "promenade",
+                "indirect": "0"
+              },
+              {
+                "translation": "saunter",
+                "indirect": "0"
+              },
+              {
+                "translation": "stroll",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "zich begeven": [
+              {
+                "translation": "be going to",
+                "indirect": "0"
+              },
+              {
+                "translation": "go",
+                "indirect": "0"
+              },
+              {
+                "translation": "move",
+                "indirect": "0"
+              },
+              {
+                "translation": "pass",
+                "indirect": "0"
+              },
+              {
+                "translation": "run",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "zich voortbewegen": [
+              {
+                "translation": "be going to",
+                "indirect": "0"
+              },
+              {
+                "translation": "go",
+                "indirect": "0"
+              },
+              {
+                "translation": "move",
+                "indirect": "0"
+              },
+              {
+                "translation": "move on",
+                "indirect": "0"
+              },
+              {
+                "translation": "walk",
+                "indirect": "0"
+              }
+            ],
+            "": [
+              {
+                "translation": "take the air",
+                "indirect": "0"
+              }
+            ]
+          },
+          "Other": {
+            "": [
+              {
+                "translation": "hike",
+                "indirect": "0"
+              }
+            ]
+          }
+        },
+        "groupedIndex": [
+          [
+            0,
+            2,
+            4,
+            5,
+            6
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "dataFound": true,
+        "blockAds": 0,
+        "wiktionaryTranslations": {
+          "lang": "en",
+          "tlang": "nl",
+          "forward": [
+            {
+              "word": "walk",
+              "k": "word",
+              "g": [
+                {
+                  "pos": "verb",
+                  "k": "pos",
+                  "g": [
+                    {
+                      "def": "move on the feet",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "wandelen",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "stappen",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "lopen",
+                          "tgender": ""
+                        }
+                      ]
+                    },
+                    {
+                      "def": "law: colloquial: to go free",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "vrijuit gaan",
+                          "tgender": ""
+                        }
+                      ]
+                    },
+                    {
+                      "def": "to travel a distance by walking",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "lopen",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "wandelen",
+                          "tgender": ""
+                        }
+                      ]
+                    },
+                    {
+                      "def": "to take for a walk",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "uitlaten",
+                          "tgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "pos": "noun",
+                  "k": "pos",
+                  "g": [
+                    {
+                      "def": "trip made by walking",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "wandeling",
+                          "tgender": "f"
+                        }
+                      ]
+                    },
+                    {
+                      "def": "distance walked",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "wandeling",
+                          "tgender": "f"
+                        }
+                      ]
+                    },
+                    {
+                      "def": "manner of walking",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "loopje",
+                          "tgender": "n"
+                        }
+                      ]
+                    },
+                    {
+                      "def": "maintained place on which to walk",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "en",
+                          "tlang": "nl",
+                          "tword": "pad",
+                          "tgender": "n"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reverse": [
+            {
+              "rword": "walk",
+              "k": "rword",
+              "g": [
+                {
+                  "pos": "verb",
+                  "k": "pos",
+                  "g": [
+                    {
+                      "def": "stappen, gaan",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "nl",
+                          "word": "lopen",
+                          "tlang": "en",
+                          "tword": "walk",
+                          "tgender": ""
+                        }
+                      ]
+                    },
+                    {
+                      "def": "een wandeling maken",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "nl",
+                          "word": "wandelen",
+                          "tlang": "en",
+                          "tword": "walk",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "nl",
+                          "word": "wandelen",
+                          "tlang": "en",
+                          "tword": "go for a walk",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "nl",
+                          "word": "wandelen",
+                          "tlang": "en",
+                          "tword": "stroll",
+                          "tgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "pos": "noun",
+                  "k": "pos",
+                  "g": [
+                    {
+                      "def": "een kleine rondwandeling",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "nl",
+                          "word": "ommetje",
+                          "tlang": "en",
+                          "tword": "walk",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "nl",
+                          "word": "ommetje",
+                          "tlang": "en",
+                          "tword": "stroll",
+                          "tgender": ""
+                        }
+                      ]
+                    },
+                    {
+                      "def": "het lopend afleggen van een bepaalde afstand",
+                      "k": "def",
+                      "g": [
+                        {
+                          "lang": "nl",
+                          "word": "wandeling",
+                          "tlang": "en",
+                          "tword": "stroll",
+                          "tgender": ""
+                        },
+                        {
+                          "lang": "nl",
+                          "word": "wandeling",
+                          "tlang": "en",
+                          "tword": "walk",
+                          "tgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "xTran": [
+            {
+              "lang": "de",
+              "k": "lang",
+              "g": [
+                {
+                  "word": "Spaziergang",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": "geruhsames Gehen zur Erholung",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "wandeling",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "word": "gehen",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": "sich [[schreiten]]d, schrittweise fortbewegen",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "lopen",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "word": "laufen",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": "''von [[Menschen]]:'' (zu Fu\u00df) [[gehen]]",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "lopen",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "word": "spazieren",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": "[[gem\u00e4chlich]] [[gehen]] zum [[Zweck]]e der [[Entspannung]] und [[Zerstreuung]]",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "kuieren",
+                          "dgender": ""
+                        },
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "wandelen",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "lang": "fr",
+              "k": "lang",
+              "g": [
+                {
+                  "word": "balade",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": " [[promenade|Promenade]] sans [[but]] pr\u00e9cis.",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "wandeling",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "word": "marcher",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": " Se [[d\u00e9placer]] par un mouvement alternatif des [[jambe]]s ou des [[patte]]s, en ayant toujours un appui au sol.",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "lopen",
+                          "dgender": ""
+                        },
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "marcheren",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "word": "promener",
+                  "k": "word",
+                  "g": [
+                    {
+                      "def": "Mener, conduire, faire aller quelqu\u2019un de c\u00f4t\u00e9 ou d\u2019autre.",
+                      "k": "def",
+                      "g": [
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "afrijden",
+                          "dgender": ""
+                        },
+                        {
+                          "slang": "en",
+                          "sword": "walk",
+                          "sgender": "",
+                          "dlang": "nl",
+                          "dword": "uitlaten",
+                          "dgender": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "scodes": [],
+    "dcodes": [],
+    "dWordList": [],
+    "altWords": null,
+    "sug": null,
+    "srcLangNum": 2,
+    "dstLangNum": 1,
+    "srcLangCode": "en",
+    "dstLangCode": "nl",
+    "langsrc": "English",
+    "langdst": "Dutch",
+    "asSentence": null,
+    "tranFound": true,
+    "relatedTrans": [
+      "walk upon",
+      "walk over",
+      "walk right into it",
+      "walk away",
+      "walk off",
+      "walk out",
+      "walk stiffly",
+      "walk woodenly",
+      "walk a tight rope",
+      "walk round",
+      "walk up",
+      "walk across",
+      "walk about",
+      "walk in one's sleep",
+      "walk quickly",
+      "walk the streets",
+      "walk there",
+      "walk to",
+      "walk along",
+      "walk past",
+      "walk on before",
+      "walk heavily",
+      "walk in front",
+      "walk with a limp",
+      "rope walk",
+      "short walk",
+      "cock of the walk",
+      "sheep-walk",
+      "walk in the same track"
+    ],
+    "blockAds": 0,
+    "wiktionaryTranslations": {
+      "lang": "en",
+      "tlang": "nl",
+      "forward": [
+        {
+          "word": "walk",
+          "k": "word",
+          "g": [
+            {
+              "pos": "verb",
+              "k": "pos",
+              "g": [
+                {
+                  "def": "move on the feet",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "wandelen",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "stappen",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "lopen",
+                      "tgender": ""
+                    }
+                  ]
+                },
+                {
+                  "def": "law: colloquial: to go free",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "vrijuit gaan",
+                      "tgender": ""
+                    }
+                  ]
+                },
+                {
+                  "def": "to travel a distance by walking",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "lopen",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "wandelen",
+                      "tgender": ""
+                    }
+                  ]
+                },
+                {
+                  "def": "to take for a walk",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "uitlaten",
+                      "tgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "pos": "noun",
+              "k": "pos",
+              "g": [
+                {
+                  "def": "trip made by walking",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "wandeling",
+                      "tgender": "f"
+                    }
+                  ]
+                },
+                {
+                  "def": "distance walked",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "wandeling",
+                      "tgender": "f"
+                    }
+                  ]
+                },
+                {
+                  "def": "manner of walking",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "loopje",
+                      "tgender": "n"
+                    }
+                  ]
+                },
+                {
+                  "def": "maintained place on which to walk",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "en",
+                      "tlang": "nl",
+                      "tword": "pad",
+                      "tgender": "n"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "reverse": [
+        {
+          "rword": "walk",
+          "k": "rword",
+          "g": [
+            {
+              "pos": "verb",
+              "k": "pos",
+              "g": [
+                {
+                  "def": "stappen, gaan",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "nl",
+                      "word": "lopen",
+                      "tlang": "en",
+                      "tword": "walk",
+                      "tgender": ""
+                    }
+                  ]
+                },
+                {
+                  "def": "een wandeling maken",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "nl",
+                      "word": "wandelen",
+                      "tlang": "en",
+                      "tword": "walk",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "nl",
+                      "word": "wandelen",
+                      "tlang": "en",
+                      "tword": "go for a walk",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "nl",
+                      "word": "wandelen",
+                      "tlang": "en",
+                      "tword": "stroll",
+                      "tgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "pos": "noun",
+              "k": "pos",
+              "g": [
+                {
+                  "def": "een kleine rondwandeling",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "nl",
+                      "word": "ommetje",
+                      "tlang": "en",
+                      "tword": "walk",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "nl",
+                      "word": "ommetje",
+                      "tlang": "en",
+                      "tword": "stroll",
+                      "tgender": ""
+                    }
+                  ]
+                },
+                {
+                  "def": "het lopend afleggen van een bepaalde afstand",
+                  "k": "def",
+                  "g": [
+                    {
+                      "lang": "nl",
+                      "word": "wandeling",
+                      "tlang": "en",
+                      "tword": "stroll",
+                      "tgender": ""
+                    },
+                    {
+                      "lang": "nl",
+                      "word": "wandeling",
+                      "tlang": "en",
+                      "tword": "walk",
+                      "tgender": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "xTran": [
+        {
+          "lang": "de",
+          "k": "lang",
+          "g": [
+            {
+              "word": "Spaziergang",
+              "k": "word",
+              "g": [
+                {
+                  "def": "geruhsames Gehen zur Erholung",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "wandeling",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "word": "gehen",
+              "k": "word",
+              "g": [
+                {
+                  "def": "sich [[schreiten]]d, schrittweise fortbewegen",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "lopen",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "word": "laufen",
+              "k": "word",
+              "g": [
+                {
+                  "def": "''von [[Menschen]]:'' (zu Fu\u00df) [[gehen]]",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "lopen",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "word": "spazieren",
+              "k": "word",
+              "g": [
+                {
+                  "def": "[[gem\u00e4chlich]] [[gehen]] zum [[Zweck]]e der [[Entspannung]] und [[Zerstreuung]]",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "kuieren",
+                      "dgender": ""
+                    },
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "wandelen",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "lang": "fr",
+          "k": "lang",
+          "g": [
+            {
+              "word": "balade",
+              "k": "word",
+              "g": [
+                {
+                  "def": " [[promenade|Promenade]] sans [[but]] pr\u00e9cis.",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "wandeling",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "word": "marcher",
+              "k": "word",
+              "g": [
+                {
+                  "def": " Se [[d\u00e9placer]] par un mouvement alternatif des [[jambe]]s ou des [[patte]]s, en ayant toujours un appui au sol.",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "lopen",
+                      "dgender": ""
+                    },
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "marcheren",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "word": "promener",
+              "k": "word",
+              "g": [
+                {
+                  "def": "Mener, conduire, faire aller quelqu\u2019un de c\u00f4t\u00e9 ou d\u2019autre.",
+                  "k": "def",
+                  "g": [
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "afrijden",
+                      "dgender": ""
+                    },
+                    {
+                      "slang": "en",
+                      "sword": "walk",
+                      "sgender": "",
+                      "dlang": "nl",
+                      "dword": "uitlaten",
+                      "dgender": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "dataFound": false,
+    "mask": 0,
+    "word": "walk",
+    "wordSets": [],
+    "errors": [],
+    "scodes": [],
+    "dcodes": [],
+    "dWordList": [],
+    "altWords": null,
+    "sug": null,
+    "srcLangNum": 1,
+    "dstLangNum": 2,
+    "srcLangCode": "nl",
+    "dstLangCode": "en",
+    "langsrc": "Dutch",
+    "langdst": "English",
+    "asSentence": null,
+    "tranFound": false,
+    "relatedTrans": [],
+    "blockAds": 0,
+    "wiktionaryTranslations": []
+  }
+]

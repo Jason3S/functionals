@@ -46,4 +46,56 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($g, $f);
     }
 
+    public function testLargerSample() {
+        $sampleObj = SampleData::getComplexSampleAsObject();
+        $sampleArr = SampleData::getComplexSampleAsArray();
+
+        $samples = array(
+            $sampleObj, $sampleArr
+        );
+
+        $pathsExists = array(
+            '.word'                      => true,
+            '.dataFound'                 => true,
+            '.wordSets..entries.'        => true,
+            '.wordSets..entries.srcWord' => false,  // Should be empty because entries is an array
+        );
+
+        $pathsEquals = array(
+            '.word', '.dataFound',
+            '.wordSets..entries.srcWord',  // Should be empty because entries is an array
+            '.wordSets..entries..srcWord', // array of words.
+        );
+
+
+        // spot check.
+        $path = '.wordSets..entries..subEntries..dstWords';
+        $a = Sequence::make($sampleObj)->select($path)->values()->toArray();
+        $b = Sequence::make($sampleArr)->select($path)->values()->toArray();
+        $this->assertEquals($a, $b);
+
+
+        // Make sure they match each other.
+        foreach ($pathsEquals as $path) {
+            $a = Sequence::make($sampleObj)->select($path)->values()->toArray();
+            $b = Sequence::make($sampleArr)->select($path)->values()->toArray();
+            $this->assertEquals($a, $b);
+
+            $a = Sequence::make($sampleObj)->select($path)->keys()->toArray();
+            $b = Sequence::make($sampleArr)->select($path)->keys()->toArray();
+            $this->assertEquals($a, $b);
+        }
+
+        // Make sure they are not null.
+        foreach ($samples as $sample) {
+            foreach ($pathsExists as $path => $hasData) {
+                $a = Sequence::make($sample)->select($path)->toArray();
+                if ($hasData) {
+                    $this->assertNotEmpty($a);
+                } else {
+                    $this->assertEmpty($a);
+                }
+            }
+        }
+    }
 }

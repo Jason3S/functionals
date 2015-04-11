@@ -66,4 +66,24 @@ class SampleData {
         ],
     ];
 
+    static $complexSampleObject = null;
+    static $complexSampleArray = null;
+
+    public static function loadSamples() {
+        if (empty(static::$complexSampleObject)) {
+            $json = file_get_contents('sample.json');
+            static::$complexSampleObject = json_decode($json);
+            static::$complexSampleArray = json_decode($json, true);
+        }
+    }
+
+    public static function getComplexSampleAsObject() {
+        static::loadSamples();
+        return static::$complexSampleObject;
+    }
+
+    public static function getComplexSampleAsArray() {
+        static::loadSamples();
+        return static::$complexSampleArray;
+    }
 }
