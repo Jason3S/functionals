@@ -27,6 +27,15 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => 'name'],
 			],
+            '...price_options.[]' => [
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => 'price_options'],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_CONDITION_BEGIN,    SelectorCompiler::VALUE => '['],
+                [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_CONDITION_END,      SelectorCompiler::VALUE => ']'],
+            ],
             '(product|item).name' => [
                 [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_GROUP_BEGIN,        SelectorCompiler::VALUE => '('],
                 [SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => 'product'],
@@ -59,6 +68,7 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(
 			SelectorCompiler::tokenize('products[type=55&&price>"20.50"].name'),
 			SelectorCompiler::tokenize('products [type = 55 && price > "20.50"].name'));
+        $this->assertNotEquals(SelectorCompiler::tokenize(','), SelectorCompiler::tokenize('.'));
 	}
 
     public function testParseTokens() {
@@ -88,5 +98,8 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
                 $this->assertNull($parsedTokens, $testPath);
             }
         }
+    }
+
+    public function testParse() {
     }
 }

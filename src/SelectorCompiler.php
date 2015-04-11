@@ -9,7 +9,7 @@ class SelectorCompiler {
     const TOKEN_START = 'start';
 	const TOKEN_WORD = 'word';
     const TOKEN_REGEX = 'regex';
-	const TOKEN_FIELD_SEPARATOR = ',';
+	const TOKEN_FIELD_SEPARATOR = '.';
 	const TOKEN_CONDITION_BEGIN = '[';
 	const TOKEN_CONDITION_END = ']';
 	const TOKEN_OPERATOR_COMPARISON = '=';
@@ -99,6 +99,13 @@ class SelectorCompiler {
         'field_separator'       => self::TOKEN_FIELD_SEPARATOR,
     ];
 
+    /**
+     * Convert a path into an array of tokens.
+     *
+     * @param $path
+     * @return array
+     * @throws SelectorPathParserException
+     */
 	public static function tokenize($path) {
 		$tokens = [];
 		while ($path) {
@@ -119,7 +126,13 @@ class SelectorCompiler {
 		return $tokens;
 	}
 
-    protected static function buildStatementTree($processedTokens) {
+    /**
+     * Converts a stream of tokens into a tree
+     *
+     * @param $statements
+     * @return mixed
+     */
+    protected static function buildStatementTree($statements) {
         $offset = 0;
 
         $groupBegin = ['['=>true];
@@ -127,11 +140,11 @@ class SelectorCompiler {
         $ignore = ['group_begin'=>true, 'condition_begin'=>true,
                    'group_end'=>true, 'condition_end'=>true];
 
-        $fnMakeTree = function() use (&$fnMakeTree, &$offset, $processedTokens, $groupBegin, $groupEnd, $ignore) {
+        $fnMakeTree = function() use (&$fnMakeTree, &$offset, $statements, $groupBegin, $groupEnd, $ignore) {
             $tree = [];
 
-            while ($offset < count($processedTokens)) {
-                $token = $processedTokens[$offset];
+            while ($offset < count($statements)) {
+                $token = $statements[$offset];
                 $statement = $token['statement'];
                 $offset += 1;
                 if (isset($groupBegin[$statement])) {
@@ -149,6 +162,12 @@ class SelectorCompiler {
         return $fnMakeTree();
     }
 
+    /**
+     * Process the tokens into statements
+     *
+     * @param $tokens
+     * @return array|null - the statement tree
+     */
     public static function processTokens($tokens) {
         $grammar = self::$grammar;
 
@@ -162,7 +181,7 @@ class SelectorCompiler {
 
             if ($current['offset'] == count($tokens)) {
                 if (empty($current['statements'])) {
-                    return static::buildStatementTree($current['processed']);
+                    return $current['processed'];
                 }
             }
 
@@ -192,6 +211,7 @@ class SelectorCompiler {
                     }
                 } else {
                     // We have a no-op grammar statement add the remainder back into the active list.
+                    // These are used to grouping statements.
                     $activeStatements[] = [
                         'statements' => $remainingStatements,
                         'offset' => $current['offset'],
@@ -217,55 +237,70 @@ class SelectorCompiler {
         return null;
     }
 
+    /**
+     * Take a path, tokenize it, and return the statement tree.
+     *
+     * @param $path
+     * @return array|null
+     * @throws SelectorPathParserException
+     */
 	public static function parsePath($path) {
         $tokens = static::tokenize($path);
-        $tokenTree = static::processTokens($tokens);
-        return $tokenTree;
+        $statements = static::processTokens($tokens);
+        $statementTree = static::buildStatementTree($statements);
+        return $statementTree;
 	}
 
 
     /**
+     * Walks the statement tree and builds an array of functions to be chained together.
+     *
      * @param $tokenTree
      * @return callable[]
      */
-    public static function walkTokenTree($tokenTree) {
+    public static function walkStatementTree($tokenTree) {
         $fnChain = [];
 
         foreach ($tokenTree as $statement) {
             switch ($statement['statement']) {
                 case 'start':
-                    $fnChain = static::walkTokenTree($statement['statements']);
+                    $fnChain = static::walkStatementTree($statement['statements']);
                     break;
                 case 'field_separator':
                     $fnChain[] = fn\fnChildren();
                     break;
+                case 'selectors':
+                    $fnConditions = static::walkStatementTree($statement['statements']);
+                    $fnChain[] = fn\fnFilter(fn\fnAnd($fnConditions));
+                    break;
                 case 'field':
                     $fieldName = $statement[self::TOKEN][self::VALUE];
-                    $fnChain[] = fn\fnFilter(function ($value, $key) use ($fieldName) { return $key == $fieldName; });
+                    $fnChain[] = function ($value, $key) use ($fieldName) { return $key == $fieldName; };
                     break;
                 case 'condition':
-                    $fnConditionChain = static::walkTokenTree($statement['statements']);
-                    if (empty($fnConditionChain)) {
+                    $fnConditionChain = static::walkStatementTree($statement['statements']);
+                    if (! empty($fnConditionChain)) {
+                        $fnConditions = fn\fnAnd($fnConditionChain);
+                    } else {
                         // return true if it can be iterated over
-                        $fnConditionChain = function ($value) {
+                        $fnConditions = function ($value) {
                             return ! empty($value) && (is_object($value) || is_array($value));
                         };
                     }
-                    $fnChain[] = fn\fnFilter($fnConditionChain);
+                    $fnChain[] = $fnConditions;
                     break;
 
                 // @todo
                 case 'field_selectors':
                 case 'child_selector':
                 case 'selector_group':
-                case 'selectors':
                 case 'selector':
                 case 'conditions':
                 case 'condition_group':
                 case 'condition_expression':
                 default:
                     if (! empty($statement['statements'])) {
-                        $fnChain = array_merge($fnChain, static::walkTokenTree($statement['statements']));
+                        $fnChain = array_merge($fnChain, static::walkStatementTree($statement['statements']));
                     }
                     break;
             }
@@ -280,7 +315,7 @@ class SelectorCompiler {
      * @return callable
      */
     public static function compileTokenTree($tokenTree) {
-        $fnChain = static::walkTokenTree($tokenTree);
+        $fnChain = static::walkStatementTree($tokenTree);
         return fn\fnChain($fnChain);
     }
 
