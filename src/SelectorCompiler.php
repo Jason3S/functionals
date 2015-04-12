@@ -34,7 +34,7 @@ class SelectorCompiler {
         '~\s*(\()\s*~A'                     => ['token' => self::TOKEN_GROUP_BEGIN,            'match' => 1],
         '~\s*(\))\s*~A'                     => ['token' => self::TOKEN_GROUP_END,              'match' => 1],
 		'~\s*(,|\|\|?|&&?)\s*~A'            => ['token' => self::TOKEN_CONDITION_SEPARATOR,    'match' => 1],
-		'~\s*(=|<=|>=|<|>|<>|!=)\s*~A'      => ['token' => self::TOKEN_OPERATOR_COMPARISON,    'match' => 1],
+		'~\s*(==?|<=|>=|<|>|<>|!=)\s*~A'    => ['token' => self::TOKEN_OPERATOR_COMPARISON,    'match' => 1],
         '~\s*([+\-*^%$#@!])\s*~A'           => ['token' => self::TOKEN_SYMBOL,                 'match' => 1],  // these don't currently have any meaning.
 	];
 
@@ -43,21 +43,27 @@ class SelectorCompiler {
             'field_selectors',
         ],
         'field_selectors' => [
-            'selectors',
+            'field_selector',
             'child_selector',
-            'selectors child_selector',                     // i.e university.teachers|students.  -- returns all the students and teaches in one list
+            'field_selector child_selector',                     // i.e university.teachers|students.  -- returns all the students and teaches in one list
         ],
         'child_selector' => [
             'field_separator',                               // i.e . -- same a flatten once
             'field_separator field_selectors',               // i.e universities..teachers|students. -- returns all the students and teaches from a list of universities
         ],
+        'field_selector' => [
+            'selectors'
+        ],
         'selectors' => [
             'selector',
-            'selector selector_operator selectors',
+            'compound_selector',
             'selector_group',
         ],
         'selector_group' => [
             'group_begin selectors group_end',
+        ],
+        'compound_selector' => [
+            'selector selector_operator selectors',
         ],
         'selector' => [
             'field',
@@ -104,7 +110,7 @@ class SelectorCompiler {
      *
      * @param $path
      * @return array
-     * @throws SelectorPathParserException
+     * @throws SelectorCompilerException
      */
 	public static function tokenize($path) {
 		$tokens = [];
@@ -119,7 +125,7 @@ class SelectorCompiler {
 				}
 			}
 			if (! $found) {
-				throw new SelectorPathParserException('Tokenize Error: Unable to tokenize "'.$path.'"');
+				throw new SelectorCompilerException('Tokenize Error: Unable to tokenize "'.$path.'"');
 			}
 		}
 
@@ -242,7 +248,7 @@ class SelectorCompiler {
      *
      * @param $path
      * @return array|null
-     * @throws SelectorPathParserException
+     * @throws SelectorCompilerException
      */
 	public static function parsePath($path) {
         $tokens = static::tokenize($path);
@@ -250,6 +256,32 @@ class SelectorCompiler {
         $statementTree = static::buildStatementTree($statements);
         return $statementTree;
 	}
+
+    /**
+     * Generate a function to bind the operator.
+     *
+     * @param $statement
+     * @return callable
+     * @throws SelectorCompilerException
+     */
+    protected static function genSelectorOperator($statement) {
+        $op = $statement[self::TOKEN][self::VALUE];
+        switch ($op) {
+            case ',':
+            case '|':
+            case '||':
+                return function ($fnLeft, $fnRight) {
+                    return fn\fnOr($fnLeft, $fnRight);
+                };
+            case '&':
+            case '&&':
+                return function ($fnLeft, $fnRight) {
+                    return fn\fnAnd($fnLeft, $fnRight);
+                };
+            default:
+                throw new SelectorCompilerException('Unexpected operator: '.$op);
+        }
+    }
 
 
     /**
@@ -269,13 +301,16 @@ class SelectorCompiler {
                 case 'field_separator':
                     $fnChain[] = fn\fnChildren();
                     break;
-                case 'selectors':
+                case 'field_selector':
                     $fnConditions = static::walkStatementTree($statement['statements']);
                     $fnChain[] = fn\fnFilter(fn\fnAnd($fnConditions));
                     break;
                 case 'field':
                     $fieldName = $statement[self::TOKEN][self::VALUE];
                     $fnChain[] = function ($value, $key) use ($fieldName) { return (string)$key === (string)$fieldName; };
+                    break;
+                case 'selector_operator':
+                    $fnChain[] = static::genSelectorOperator($statement);
                     break;
                 case 'condition':
                     $fnConditionChain = static::walkStatementTree($statement['statements']);
@@ -288,6 +323,10 @@ class SelectorCompiler {
                         };
                     }
                     $fnChain[] = $fnConditions;
+                    break;
+                case 'compound_selector':
+                    list($fnLeft, $fnOp, $fnRight) = static::walkStatementTree($statement['statements']);
+                    $fnChain[] = $fnOp($fnLeft, $fnRight);
                     break;
 
                 // @todo
@@ -330,4 +369,4 @@ class SelectorCompiler {
 
 }
 
-class SelectorPathParserException extends \Exception {}
+class SelectorCompilerException extends \Exception {}

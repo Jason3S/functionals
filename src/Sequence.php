@@ -38,6 +38,10 @@ class Sequence implements \IteratorAggregate {
         return Sequence(Selector::make($this->getIterator(), $path));
     }
 
+    public function pairKeyValues() {
+        return Sequence(pairKeyValues($this->getIterator()));
+    }
+
     public function limit($n) {
         return Sequence(limit($this->getIterator(), $n));
     }

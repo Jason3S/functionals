@@ -145,3 +145,14 @@ function children(\Traversable $traversable) {
     }
 }
 
+/**
+ * Combines the key and value into a tuple.
+ *
+ * @param \Traversable $traversable
+ * @return \Generator
+ */
+function pairKeyValues(\Traversable $traversable) {
+    foreach ($traversable as $key => $value) {
+        yield [$key, $value];
+    }
+}

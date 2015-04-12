@@ -15,6 +15,28 @@ function fnIdentity() {
 }
 
 /**
+ * generate a function that:
+ * always returns true
+ * @return callable
+ */
+function fnTrue() {
+    return function () {
+        return true;
+    };
+}
+
+/**
+ * generate a function that:
+ * always returns false
+ * @return callable
+ */
+function fnFalse() {
+    return function () {
+        return false;
+    };
+}
+
+/**
  * Swaps the first to parameters and passes them through to $fn
  *
  * @param callable $fn($b, $a);
@@ -119,6 +141,11 @@ function fnAnd($functions) {
 
     $functions = \functionals\toIterator($functions);
 
+    // if there is just one function, return it.
+    if (count($functions) == 1) {
+        return $functions[0];
+    }
+
     return function () use ($functions) {
         $result = true;
         $args = func_get_args();
@@ -145,6 +172,11 @@ function fnOr($functions) {
     }
 
     $functions = \functionals\toIterator($functions);
+
+    // if there is just one function, return it.
+    if (count($functions) == 1) {
+        return $functions[0];
+    }
 
     return function () use ($functions) {
         $result = false;
@@ -202,5 +234,19 @@ function fnEmpty() {
 function fnIsSet() {
     return function ($value) {
         return isset($value);
+    };
+}
+
+/**
+ * Increments the counter whenever it is called and passes the call to $fn
+ * @param $fn
+ * @param $counter
+ * @return callable
+ */
+function fnCallCountPassThrough($fn, &$counter) {
+    return function () use ($fn, &$counter) {
+        ++$counter;
+        $args = func_get_args();
+        return call_user_func_array($fn, $args);
     };
 }

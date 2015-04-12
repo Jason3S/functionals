@@ -46,6 +46,32 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($g, $f);
     }
 
+    public function testSelectors() {
+        $pet = [
+            'name' => 'Tijgertje',
+            'breed' => 'tabby',
+            'dob' => '2013-05-15',
+            'address' => [
+                'street' => 'Leidsevaart',
+                'number' => '99',
+                'city'=>'Haarlem',
+                'zip'=>'2011GH',
+            ],
+        ];
+
+        $f = Sequence::make($pet)->select('name')->toArray();
+        $this->assertEquals(['name'=>$pet['name']], $f);
+
+        $f = Sequence::make($pet)->select('dob')->toArray();
+        $this->assertEquals(['dob'=>$pet['dob']], $f);
+
+        $f = Sequence::make($pet)->select('name|dob')->toArray();
+        $this->assertEquals([
+            'name' => $pet['name'],
+            'dob'=>$pet['dob']
+        ], $f);
+    }
+
     public function testLargerSample() {
         $sampleObj = SampleData::getComplexSampleAsObject();
         $sampleArr = SampleData::getComplexSampleAsArray();
@@ -66,13 +92,6 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
             '.wordSets..entries.srcWord',  // Should be empty because entries is an array
             '.wordSets..entries..srcWord', // array of words.
         );
-
-
-        // spot check.
-        $path = '.wordSets..entries..subEntries..dstWords';
-        $a = Sequence::make($sampleObj)->select($path)->values()->toArray();
-        $b = Sequence::make($sampleArr)->select($path)->values()->toArray();
-        $this->assertEquals($a, $b);
 
 
         // Make sure they match each other.
@@ -97,5 +116,22 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
                 }
             }
         }
+
+        // spot check.
+        $path = '.wordSets..entries.';
+        $a = Sequence::make($sampleObj)->select($path);
+        $b = Sequence::make($sampleArr)->select($path);
+        $path = 'srcWord';
+        $a = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
+        $b = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
+        $this->assertEquals($a, $b);
+
+        $path = '.wordSets..entries.';
+        $a = Sequence::make($sampleObj)->select($path)->toArray();
+        $b = Sequence::make($sampleArr)->select($path)->toArray();
+        $path = 'srcWord|srcCodes';
+        $a = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
+        $b = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
+        $this->assertEquals($a, $b);
     }
 }
