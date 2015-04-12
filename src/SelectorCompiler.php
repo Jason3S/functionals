@@ -6,36 +6,40 @@ use functionals as f;
 
 
 class SelectorCompiler {
-    const TOKEN_START = 'start';
-	const TOKEN_WORD = 'word';
-    const TOKEN_REGEX = 'regex';
-	const TOKEN_FIELD_SEPARATOR = '.';
-	const TOKEN_CONDITION_BEGIN = '[';
-	const TOKEN_CONDITION_END = ']';
-	const TOKEN_OPERATOR_COMPARISON = '=';
-	const TOKEN_CONDITION_SEPARATOR = ',';
-    const TOKEN_GROUP_BEGIN = '(';
-    const TOKEN_GROUP_END = ')';
-    const TOKEN_SYMBOL = '+-*$%#@';
-    const TOKEN_END = 'end';
-	const TOKEN = 'token';
-	const VALUE = 'value';
+    const TOKEN_START               = 'start';
+    const TOKEN_WORD                = 'word';
+    const TOKEN_REGEX               = 'regex';
+    const TOKEN_FIELD_SEPARATOR     = '.';
+    const TOKEN_CONDITION_BEGIN     = '[';
+    const TOKEN_CONDITION_END       = ']';
+    const TOKEN_OP_EQUAL            = '=';
+    const TOKEN_OP_NOT_EQUAL        = '!=';
+    const TOKEN_OP_REL_COMPARISON   = '>';
+    const TOKEN_CONDITION_SEPARATOR = ',';
+    const TOKEN_GROUP_BEGIN         = '(';
+    const TOKEN_GROUP_END           = ')';
+    const TOKEN_SYMBOL              = '+-*$%#@';
+    const TOKEN_END                 = 'end';
+    const TOKEN                     = 'token';
+    const VALUE                     = 'value';
 
 
 
 	static $patterns = [
-		'~(\w+|\\\[\[\\\]*.\-=])+~A'        => ['token' => self::TOKEN_WORD,                   'match' => 0],
-		'~\'([^\']*)\'~A'                   => ['token' => self::TOKEN_WORD,                   'match' => 1],
-		'~"([^"]*)"~A'                      => ['token' => self::TOKEN_WORD,                   'match' => 1],
-        '~/([^/]|\\\/)*/[i]?~A'             => ['token' => self::TOKEN_REGEX,                  'match' => 0],
-		'~\.~A'                             => ['token' => self::TOKEN_FIELD_SEPARATOR,        'match' => 0],
-		'~\s*(\[)\s*~A'                     => ['token' => self::TOKEN_CONDITION_BEGIN,        'match' => 1],
-		'~\s*(\])\s*~A'                     => ['token' => self::TOKEN_CONDITION_END,          'match' => 1],
-        '~\s*(\()\s*~A'                     => ['token' => self::TOKEN_GROUP_BEGIN,            'match' => 1],
-        '~\s*(\))\s*~A'                     => ['token' => self::TOKEN_GROUP_END,              'match' => 1],
-		'~\s*(,|\|\|?|&&?)\s*~A'            => ['token' => self::TOKEN_CONDITION_SEPARATOR,    'match' => 1],
-		'~\s*(==?|<=|>=|<|>|<>|!=)\s*~A'    => ['token' => self::TOKEN_OPERATOR_COMPARISON,    'match' => 1],
-        '~\s*([+\-*^%$#@!])\s*~A'           => ['token' => self::TOKEN_SYMBOL,                 'match' => 1],  // these don't currently have any meaning.
+		'~(\w+|\\\[\[\\\]*.\-=])+~A'        => ['token' => self::TOKEN_WORD,                    'match' => 0],
+		'~\'([^\']*)\'~A'                   => ['token' => self::TOKEN_WORD,                    'match' => 1],
+		'~"([^"]*)"~A'                      => ['token' => self::TOKEN_WORD,                    'match' => 1],
+        '~/([^/]|\\\/)*/[i]?~A'             => ['token' => self::TOKEN_REGEX,                   'match' => 0],
+		'~\.~A'                             => ['token' => self::TOKEN_FIELD_SEPARATOR,         'match' => 0],
+		'~\s*(\[)\s*~A'                     => ['token' => self::TOKEN_CONDITION_BEGIN,         'match' => 1],
+		'~\s*(\])\s*~A'                     => ['token' => self::TOKEN_CONDITION_END,           'match' => 1],
+        '~\s*(\()\s*~A'                     => ['token' => self::TOKEN_GROUP_BEGIN,             'match' => 1],
+        '~\s*(\))\s*~A'                     => ['token' => self::TOKEN_GROUP_END,               'match' => 1],
+		'~\s*(,|\|\|?|&&?)\s*~A'            => ['token' => self::TOKEN_CONDITION_SEPARATOR,     'match' => 1],
+        '~\s*(=)\s*~A'                      => ['token' => self::TOKEN_OP_EQUAL,                'match' => 1],
+        '~\s*(<>|!=)\s*~A'                  => ['token' => self::TOKEN_OP_NOT_EQUAL,            'match' => 1],
+		'~\s*(<=|>=|<|>)\s*~A'              => ['token' => self::TOKEN_OP_REL_COMPARISON,       'match' => 1],
+        '~\s*([+\-*^%$#@!])\s*~A'           => ['token' => self::TOKEN_SYMBOL,                  'match' => 1],  // these don't currently have any meaning.
 	];
 
     static $grammar = [
@@ -75,17 +79,45 @@ class SelectorCompiler {
             'condition_begin conditions condition_end',
         ],
         'conditions' => [
-            'word',
-            'word operator condition_expression',
-            'word operator condition_expression condition_operator conditions',
-            'condition_group',
+            'condition_field_exists',
+            'condition_expression',
+            'compound_condition'
+        ],
+        'condition_field_exists' => [  // single
+            'condition_field',
+        ],
+        'condition_expression' => [  // defined as left op right
+            'condition_field operators condition_value',
+        ],
+        'condition_expression_regex' => [
+            'condition_field match_operators condition_regex'
+        ],
+        'compound_condition' => [   // defined as left op right
+            'condition_field_exists condition_separator conditions',
+            'condition_expression condition_separator conditions',
+            'condition_group condition_separator conditions',
         ],
         'condition_group' => [
             'group_begin conditions group_end',
         ],
-        'condition_expression' => [
+        'condition_field' => [
             'word',
+            // 'regex',  // <-- this is possible but needs more work.
+        ],
+        'condition_value' => [
+            'word',
+        ],
+        'condition_regex' => [
             'regex',
+        ],
+        'match_operators' => [
+            'op_eq',
+            'op_ne',
+        ],
+        'operators' => [
+            'op_eq',
+            'op_ne',
+            'op_rel',
         ],
 
         '[' => [],  // Used to mark the start of a semantic value example  condition [ ... ]
@@ -97,8 +129,10 @@ class SelectorCompiler {
         'regex'                 => self::TOKEN_REGEX,
         'group_begin'           => self::TOKEN_GROUP_BEGIN,
         'group_end'             => self::TOKEN_GROUP_END,
-        'operator'              => self::TOKEN_OPERATOR_COMPARISON,
-        'condition_operator'    => self::TOKEN_CONDITION_SEPARATOR,
+        'op_eq'                 => self::TOKEN_OP_EQUAL,
+        'op_ne'                 => self::TOKEN_OP_NOT_EQUAL,
+        'op_rel'                => self::TOKEN_OP_REL_COMPARISON,
+        'condition_separator'    => self::TOKEN_CONDITION_SEPARATOR,
         'selector_operator'     => self::TOKEN_CONDITION_SEPARATOR,
         'condition_begin'       => self::TOKEN_CONDITION_BEGIN,
         'condition_end'         => self::TOKEN_CONDITION_END,
@@ -269,12 +303,10 @@ class SelectorCompiler {
         switch ($op) {
             case ',':
             case '|':
-            case '||':
                 return function ($fnLeft, $fnRight) {
                     return fn\fnOr($fnLeft, $fnRight);
                 };
             case '&':
-            case '&&':
                 return function ($fnLeft, $fnRight) {
                     return fn\fnAnd($fnLeft, $fnRight);
                 };
@@ -283,6 +315,29 @@ class SelectorCompiler {
         }
     }
 
+    /**
+     * Generate a function to bind the operator.
+     *
+     * @param $statement
+     * @return callable
+     * @throws SelectorCompilerException
+     */
+    protected static function genConditionsOperator($statement) {
+        $op = $statement[self::TOKEN][self::VALUE];
+        switch ($op) {
+            case '|':
+                return function ($fnLeft, $fnRight) {
+                    return fn\fnOr($fnLeft, $fnRight);
+                };
+            case ',':
+            case '&':
+                return function ($fnLeft, $fnRight) {
+                    return fn\fnAnd($fnLeft, $fnRight);
+                };
+            default:
+                throw new SelectorCompilerException('Unexpected operator: '.$op);
+        }
+    }
 
     /**
      * Walks the statement tree and builds an array of functions to be chained together.
@@ -312,6 +367,9 @@ class SelectorCompiler {
                 case 'selector_operator':
                     $fnChain[] = static::genSelectorOperator($statement);
                     break;
+                case 'condition_separator':
+                    $fnChain[] = static::genConditionsOperator($statement);
+                    break;
                 case 'condition':
                     $fnConditionChain = static::walkStatementTree($statement['statements']);
                     if (! empty($fnConditionChain)) {
@@ -324,9 +382,24 @@ class SelectorCompiler {
                     }
                     $fnChain[] = $fnConditions;
                     break;
+                case 'compound_condition':
                 case 'compound_selector':
                     list($fnLeft, $fnOp, $fnRight) = static::walkStatementTree($statement['statements']);
                     $fnChain[] = $fnOp($fnLeft, $fnRight);
+                    break;
+                case 'condition_field_exists':
+                    list($fnGetField) = static::walkStatementTree($statement['statements']);
+                    $fnChain[] = fn\fnChain($fnGetField, fn\fnIsSet());
+                    break;
+                case 'condition_field':
+                    list($fieldName) = static::walkStatementTree($statement['statements']);
+                    $fnChain[] = fn\fnExtract($fieldName);
+                    break;
+
+                //
+                case 'regex':
+                case 'word':
+                    $fnChain[] = $statement[self::TOKEN][self::VALUE];
                     break;
 
                 // @todo

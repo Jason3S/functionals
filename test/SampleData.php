@@ -69,9 +69,41 @@ class SampleData {
     static $complexSampleObject = null;
     static $complexSampleArray = null;
 
+    static $pets = [
+        [
+            'name' => 'Tijgertje',
+            'type' => 'cat',
+            'breed' => 'tabby',
+            'dob' => '2013-05-15',
+            'address' => [
+                'street' => 'Main',
+                'number' => '1',
+                'city'=>'Big City',
+                'zip'=>'90210',
+            ],
+        ],
+        [
+            'name' => 'Rover',
+            'type' => 'dog',
+            'breed' => 'unknown',
+            'dob' => '1967-05-15',
+        ],
+        [
+            'name' => 'Garfield',
+            'type' => 'cat',
+            'breed' => 'tabby',
+        ],
+        [
+            'name' => 'Odie',
+            'type' => 'dog',
+            'breed' => 'unknown',
+        ],
+    ];
+
+
     public static function loadSamples() {
         if (empty(static::$complexSampleObject)) {
-            $json = file_get_contents('sample.json');
+            $json = file_get_contents(__DIR__.'/sample.json');
             static::$complexSampleObject = json_decode($json);
             static::$complexSampleArray = json_decode($json, true);
         }

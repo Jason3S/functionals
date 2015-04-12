@@ -49,7 +49,7 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => 'products'],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_CONDITION_BEGIN,    SelectorCompiler::VALUE => '['],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => 'type'],
-				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_OPERATOR_COMPARISON,SelectorCompiler::VALUE => '='],
+				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_OP_EQUAL,           SelectorCompiler::VALUE => '='],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_WORD,               SelectorCompiler::VALUE => '55'],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_CONDITION_END,      SelectorCompiler::VALUE => ']'],
 				[SelectorCompiler::TOKEN => SelectorCompiler::TOKEN_FIELD_SEPARATOR,    SelectorCompiler::VALUE => '.'],
@@ -100,6 +100,4 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testParse() {
-    }
 }

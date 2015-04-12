@@ -52,8 +52,16 @@ function extractValue($doc, $fieldName) {
     if (is_array($doc) || $doc instanceof \ArrayAccess) {
         return isset($doc[$fieldName]) ? $doc[$fieldName] : null;
     }
-    if (is_object($doc) && property_exists($doc, $fieldName)) {
-        return $doc->{$fieldName};
+    if (is_object($doc)) {
+        if (isset($doc->{$fieldName})) {
+            return $doc->{$fieldName};
+        }
+        if (property_exists($doc, $fieldName)) {
+            $getMethod = 'get'.$fieldName;
+            if (method_exists($doc, $getMethod)) {
+                return $doc->{$getMethod}();
+            }
+        }
     }
     return null;
 }
@@ -249,4 +257,14 @@ function fnCallCountPassThrough($fn, &$counter) {
         $args = func_get_args();
         return call_user_func_array($fn, $args);
     };
+}
+
+/**
+ * Alias for fnExtract
+ *
+ * @param $fieldName
+ * @return callable
+ */
+function fnPluck($fieldName) {
+    return fnExtract($fieldName);
 }

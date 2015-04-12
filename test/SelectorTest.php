@@ -47,17 +47,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSelectors() {
-        $pet = [
-            'name' => 'Tijgertje',
-            'breed' => 'tabby',
-            'dob' => '2013-05-15',
-            'address' => [
-                'street' => 'Leidsevaart',
-                'number' => '99',
-                'city'=>'Haarlem',
-                'zip'=>'2011GH',
-            ],
-        ];
+        $pet = SampleData::$pets[0];
 
         $f = Sequence::make($pet)->select('name')->toArray();
         $this->assertEquals(['name'=>$pet['name']], $f);
@@ -133,5 +123,25 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $a = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
         $b = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
         $this->assertEquals($a, $b);
+    }
+
+    public function testCondition() {
+        $pets = SampleData::$pets;
+
+        $a = Sequence::make($pets)->select('[dob]')->toArray();
+        $this->assertNotEmpty($a);
+
+        $a = Sequence::make($pets)->select('[address].name')->values()->toArray();
+        $this->assertNotEmpty($a);
+        $this->assertTrue(in_array('Tijgertje',$a));
+
+        $a = Sequence::make($pets)->select('[dob]')->toArray();
+        $b = Sequence::make($pets)->select('[name,dob]')->values()->toArray();
+        $this->assertEquals($a, $b);
+        $c = Sequence::make($pets)->select('[name]')->values()->toArray();
+        $this->assertNotEquals($a, $c);
+        $d = Sequence::make($pets)->select('[address]')->values()->toArray();
+        $e = Sequence::make($pets)->select('[name & address]')->values()->toArray();
+        $this->assertEquals($d, $e);
     }
 }
