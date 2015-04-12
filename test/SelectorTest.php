@@ -50,15 +50,15 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $pet = SampleData::$pets[0];
 
         $f = Sequence::make($pet)->select('name')->toArray();
-        $this->assertEquals(['name'=>$pet['name']], $f);
+        $this->assertEquals(['name' => $pet['name']], $f);
 
         $f = Sequence::make($pet)->select('dob')->toArray();
-        $this->assertEquals(['dob'=>$pet['dob']], $f);
+        $this->assertEquals(['dob' => $pet['dob']], $f);
 
         $f = Sequence::make($pet)->select('name|dob')->toArray();
         $this->assertEquals([
             'name' => $pet['name'],
-            'dob'=>$pet['dob']
+            'dob'  => $pet['dob']
         ], $f);
     }
 
@@ -109,19 +109,19 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
 
         // spot check.
         $path = '.wordSets..entries.';
-        $a = Sequence::make($sampleObj)->select($path);
-        $b = Sequence::make($sampleArr)->select($path);
+        $a    = Sequence::make($sampleObj)->select($path);
+        $b    = Sequence::make($sampleArr)->select($path);
         $path = 'srcWord';
-        $a = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
-        $b = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
+        $a    = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
+        $b    = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
         $this->assertEquals($a, $b);
 
         $path = '.wordSets..entries.';
-        $a = Sequence::make($sampleObj)->select($path)->toArray();
-        $b = Sequence::make($sampleArr)->select($path)->toArray();
+        $a    = Sequence::make($sampleObj)->select($path)->toArray();
+        $b    = Sequence::make($sampleArr)->select($path)->toArray();
         $path = 'srcWord|srcCodes';
-        $a = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
-        $b = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
+        $a    = Sequence::make($a)->select($path)->pairKeyValues()->toArray();
+        $b    = Sequence::make($b)->select($path)->pairKeyValues()->toArray();
         $this->assertEquals($a, $b);
     }
 
@@ -133,7 +133,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
 
         $a = Sequence::make($pets)->select('[address].name')->values()->toArray();
         $this->assertNotEmpty($a);
-        $this->assertTrue(in_array('Tijgertje',$a));
+        $this->assertTrue(in_array('Tijgertje', $a));
 
         $a = Sequence::make($pets)->select('[dob]')->toArray();
         $b = Sequence::make($pets)->select('[name,dob]')->values()->toArray();
@@ -143,5 +143,32 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $d = Sequence::make($pets)->select('[address]')->values()->toArray();
         $e = Sequence::make($pets)->select('[name & address]')->values()->toArray();
         $this->assertEquals($d, $e);
+
+        $a = Sequence::make($pets)->select('[dob]')->limit(1)->toArray();
+        $b = Sequence::make($pets)->select('[name=Tijgertje]')->toArray();
+        $this->assertEquals($a, $b);
+
+        $c = Sequence::make($pets)->select('[name > "Tij" & name < Tj]')->toArray();
+        $this->assertEquals($a, $c);
+
+        $d = Sequence::make($pets)->select('[name > "O" & name < "T"]')->toArray();
+        $e = Sequence::make($pets)->select('[name = "Odie" | name="Rover" ]')->toArray();
+        $this->assertEquals($d, $e);
+    }
+
+    public function testConditionRegEx() {
+        $pets = SampleData::$pets;
+
+        $a = Sequence::make($pets)->select('[name=Tijgertje]')->toArray();
+        $b = Sequence::make($pets)->select('[name=/tijgertje/i]')->toArray();
+        $this->assertEquals($a, $b);
+
+        $b = Sequence::make($pets)->select('[name=/tje/i]')->toArray();
+        $this->assertEquals($a, $b);
+
+        $a = Sequence::make($pets)->select('[type=dog & name=/^[rtw]/i].name')->values()->toArray();
+        $b = Sequence::make($pets)->select('[type=dog & name=/[rtw]/iA].name')->values()->toArray();
+        $this->assertContains('Wolf', $a);
+        $this->assertEquals($a, $b);
     }
 }

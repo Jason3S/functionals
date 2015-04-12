@@ -98,6 +98,38 @@ class SampleData {
             'type' => 'dog',
             'breed' => 'unknown',
         ],
+        [
+            'name' => 'Tramp',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Lady',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Lassy',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Yellow Dog',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Fluffy',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Max',
+            'type' => 'dog',
+        ],
+        [
+            'name' => 'Tiger',
+            'type' => 'cat',
+        ],
+        [
+            'name' => 'Wolf',
+            'type' => 'dog',
+        ],
     ];
 
 

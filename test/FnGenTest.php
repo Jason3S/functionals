@@ -47,6 +47,24 @@ class FnGenTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue(false === $fn());
     }
 
+    public function testFnNot() {
+        $fn = fnNot();
+        $this->assertTrue(false === $fn(true));
+        $this->assertTrue(false === $fn(true));
+        $this->assertTrue(false === $fn(1));
+        $this->assertTrue(false === $fn("hello"));
+        $this->assertTrue(false === $fn("."));
+        $this->assertTrue(false === $fn("false"));
+        $this->assertTrue(false === $fn([1,2]));
+        $this->assertTrue(false === $fn([0]));
+        $this->assertTrue(true === $fn(false));
+        $this->assertTrue(true === $fn(false));
+        $this->assertTrue(true === $fn(0));
+        $this->assertTrue(true === $fn(null));
+        $this->assertTrue(true === $fn('0'));
+        $this->assertTrue(true === $fn([]));
+    }
+
     public function testFnOr() {
         $fn = fnOr(fnTrue(), fnFalse(), fnTrue());
         $this->assertTrue($fn());

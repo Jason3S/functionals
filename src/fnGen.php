@@ -86,6 +86,12 @@ function fnFieldEq($fieldName, $value) {
     };
 }
 
+function fnFieldNe($fieldName, $value) {
+    return function ($doc) use ($fieldName, $value) {
+        return (extractValue($doc, $fieldName) == $value);
+    };
+}
+
 function fnFieldLt($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
         return (extractValue($doc, $fieldName) < $value);
@@ -107,6 +113,70 @@ function fnFieldLte($fieldName, $value) {
 function fnFieldGte($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
         return (extractValue($doc, $fieldName) >= $value);
+    };
+}
+
+function fnEq($value) {
+    return function ($doc) use ($value) {
+        return ($doc == $value);
+    };
+}
+
+function fnEqEq($value) {
+    return function ($doc) use ($value) {
+        return ($doc === $value);
+    };
+}
+
+function fnNe($value) {
+    return function ($doc) use ($value) {
+        return ($doc != $value);
+    };
+}
+
+function fnNeEq($value) {
+    return function ($doc) use ($value) {
+        return ($doc !== $value);
+    };
+}
+
+function fnLt($value) {
+    return function ($doc) use ($value) {
+        return ($doc < $value);
+    };
+}
+
+function fnGt($value) {
+    return function ($doc) use ($value) {
+        return ($doc > $value);
+    };
+}
+
+function fnLte($value) {
+    return function ($doc) use ($value) {
+        return ($doc <= $value);
+    };
+}
+
+function fnGte($value) {
+    return function ($doc) use ($value) {
+        return ($doc >= $value);
+    };
+}
+
+function fnRegEx($regEx) {
+    return function ($doc) use ($regEx) {
+        return preg_match($regEx, $doc);
+    };
+}
+
+/**
+ * Return a function that will ! any input value.
+ * @return callable
+ */
+function fnNot() {
+    return function ($doc) {
+        return ! $doc;
     };
 }
 
@@ -196,6 +266,17 @@ function fnOr($functions) {
             }
         }
         return $result;
+    };
+}
+
+
+/**
+ * @param callable $fn
+ * @return callable
+ */
+function fnNotFn($fn) {
+    return function () use ($fn) {
+        return ! call_user_func_array($fn, func_get_args());
     };
 }
 

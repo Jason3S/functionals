@@ -29,15 +29,15 @@ class SelectorCompiler {
 		'~(\w+|\\\[\[\\\]*.\-=])+~A'        => ['token' => self::TOKEN_WORD,                    'match' => 0],
 		'~\'([^\']*)\'~A'                   => ['token' => self::TOKEN_WORD,                    'match' => 1],
 		'~"([^"]*)"~A'                      => ['token' => self::TOKEN_WORD,                    'match' => 1],
-        '~/([^/]|\\\/)*/[i]?~A'             => ['token' => self::TOKEN_REGEX,                   'match' => 0],
+        '~/([^/]|\\\/)*/[imsxADSUJu]*~A'    => ['token' => self::TOKEN_REGEX,                   'match' => 0],
 		'~\.~A'                             => ['token' => self::TOKEN_FIELD_SEPARATOR,         'match' => 0],
 		'~\s*(\[)\s*~A'                     => ['token' => self::TOKEN_CONDITION_BEGIN,         'match' => 1],
 		'~\s*(\])\s*~A'                     => ['token' => self::TOKEN_CONDITION_END,           'match' => 1],
         '~\s*(\()\s*~A'                     => ['token' => self::TOKEN_GROUP_BEGIN,             'match' => 1],
         '~\s*(\))\s*~A'                     => ['token' => self::TOKEN_GROUP_END,               'match' => 1],
 		'~\s*(,|\|\|?|&&?)\s*~A'            => ['token' => self::TOKEN_CONDITION_SEPARATOR,     'match' => 1],
-        '~\s*(=)\s*~A'                      => ['token' => self::TOKEN_OP_EQUAL,                'match' => 1],
-        '~\s*(<>|!=)\s*~A'                  => ['token' => self::TOKEN_OP_NOT_EQUAL,            'match' => 1],
+        '~\s*(==?)\s*~A'                    => ['token' => self::TOKEN_OP_EQUAL,                'match' => 1],
+        '~\s*(<>|!==?)\s*~A'                => ['token' => self::TOKEN_OP_NOT_EQUAL,            'match' => 1],
 		'~\s*(<=|>=|<|>)\s*~A'              => ['token' => self::TOKEN_OP_REL_COMPARISON,       'match' => 1],
         '~\s*([+\-*^%$#@!])\s*~A'           => ['token' => self::TOKEN_SYMBOL,                  'match' => 1],  // these don't currently have any meaning.
 	];
@@ -88,9 +88,7 @@ class SelectorCompiler {
         ],
         'condition_expression' => [  // defined as left op right
             'condition_field operators condition_value',
-        ],
-        'condition_expression_regex' => [
-            'condition_field match_operators condition_regex'
+            'condition_field regex_operators condition_regex'
         ],
         'compound_condition' => [   // defined as left op right
             'condition_field_exists condition_separator conditions',
@@ -110,9 +108,9 @@ class SelectorCompiler {
         'condition_regex' => [
             'regex',
         ],
-        'match_operators' => [
-            'op_eq',
-            'op_ne',
+        'regex_operators' => [
+            'reg_eq',
+            'reg_ne',
         ],
         'operators' => [
             'op_eq',
@@ -132,7 +130,9 @@ class SelectorCompiler {
         'op_eq'                 => self::TOKEN_OP_EQUAL,
         'op_ne'                 => self::TOKEN_OP_NOT_EQUAL,
         'op_rel'                => self::TOKEN_OP_REL_COMPARISON,
-        'condition_separator'    => self::TOKEN_CONDITION_SEPARATOR,
+        'reg_eq'                => self::TOKEN_OP_EQUAL,
+        'reg_ne'                => self::TOKEN_OP_NOT_EQUAL,
+        'condition_separator'   => self::TOKEN_CONDITION_SEPARATOR,
         'selector_operator'     => self::TOKEN_CONDITION_SEPARATOR,
         'condition_begin'       => self::TOKEN_CONDITION_BEGIN,
         'condition_end'         => self::TOKEN_CONDITION_END,
@@ -339,6 +339,65 @@ class SelectorCompiler {
         }
     }
 
+    protected static function genComparison($statement) {
+        $op = $statement[self::TOKEN][self::VALUE];
+        switch ($op) {
+            case '=':
+                return function ($value) {
+                    return fn\fnEq($value);
+                };
+            case '==':
+                return function ($value) {
+                    return fn\fnEqEq($value);
+                };
+            case '<>':
+            case '!=':
+                return function ($value) {
+                    return fn\fnNe($value);
+                };
+            case '!==':
+                return function ($value) {
+                    return fn\fnNeEq($value);
+                };
+            case '<':
+                return function ($value) {
+                    return fn\fnLt($value);
+                };
+            case '>':
+                return function ($value) {
+                    return fn\fnGt($value);
+                };
+            case '<=':
+                return function ($value) {
+                    return fn\fnLte($value);
+                };
+            case '>=':
+                return function ($value) {
+                    return fn\fnGte($value);
+                };
+            default:
+                throw new SelectorCompilerException('Unexpected operator: '.$op);
+        }
+    }
+
+    protected static function genRegExComp($statement) {
+        $op = $statement[self::TOKEN][self::VALUE];
+        switch ($op) {
+            case '=':
+            case '==':
+                return function ($regex) {
+                    return fn\fnRegEx($regex);
+                };
+            case '!=':
+            case '!==':
+                return function ($regex) {
+                    return fn\fnNotFn( fn\fnRegEx($regex) );
+                };
+            default:
+                throw new SelectorCompilerException('Unexpected operator: '.$op);
+        }
+    }
+
     /**
      * Walks the statement tree and builds an array of functions to be chained together.
      *
@@ -396,6 +455,21 @@ class SelectorCompiler {
                     $fnChain[] = fn\fnExtract($fieldName);
                     break;
 
+                case 'condition_expression':
+                    list($fnGetField, $fnOp, $valueRight) = static::walkStatementTree($statement['statements']);
+                    $fnChain[] = fn\fnChain($fnGetField, $fnOp($valueRight));
+                    break;
+
+                case 'op_eq':
+                case 'op_ne':
+                case 'op_rel':
+                    $fnChain[] = static::genComparison($statement);
+                    break;
+
+                case 'reg_eq':
+                case 'reg_ne':
+                    $fnChain[] = static::genRegExComp($statement);
+                    break;
                 //
                 case 'regex':
                 case 'word':
@@ -409,7 +483,6 @@ class SelectorCompiler {
                 case 'selector':
                 case 'conditions':
                 case 'condition_group':
-                case 'condition_expression':
                 default:
                     if (! empty($statement['statements'])) {
                         $fnChain = array_merge($fnChain, static::walkStatementTree($statement['statements']));
