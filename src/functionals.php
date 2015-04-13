@@ -34,6 +34,26 @@ function map(\Traversable $traversable, callable $fn) {
 
 /**
  * @param \Traversable $traversable
+ * @param callable $fn
+ */
+function walk(\Traversable $traversable, callable $fn) {
+    foreach ($traversable as $key => $value) {
+        $fn($value, $key);
+    }
+}
+
+/**
+ * Alias of walk.
+ *
+ * @param \Traversable $traversable
+ * @param callable $fn
+ */
+function each(\Traversable $traversable, callable $fn) {
+    walk($traversable, $fn);
+}
+
+/**
+ * @param \Traversable $traversable
  * @param callable $fn($key, $value) - given a $key and $value, return the new key
  * @return \Generator
  */

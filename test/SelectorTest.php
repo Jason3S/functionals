@@ -171,4 +171,76 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertContains('Wolf', $a);
         $this->assertEquals($a, $b);
     }
+
+    public function posFromCode($code) {
+        $posExp = [
+            '~1236~' => 'noun',
+            '~5~' => 'verb',
+            '~(7.*A)|(A.*7)~' => 'adjective',
+            '~7~' => 'modifier',
+        ];
+
+        foreach ($posExp as $exp => $pos) {
+            if (preg_match($exp, $code)) {
+                return $pos;
+            }
+        }
+
+        return '';
+    }
+
+    public function testLargeSample() {
+
+        // Changing the map values with objects WILL change the original data set.
+        $dictEntry = SampleData::getComplexSampleAsObject();
+        $a = Sequence::make($dictEntry)
+            ->select('.wordSets..entries.')
+            ->map(function($value) {
+                $value->pos = $this->posFromCode($value->srcCodes);
+                return $value;
+            })
+            ->toArray();
+
+        $b = Sequence::make($dictEntry)
+            ->select('.wordSets..entries.')
+            ->toArray();
+
+        $this->assertEquals($b, $a);
+
+        // Changing the map value with arrays will not change the original data set.
+        $dictEntry = SampleData::getComplexSampleAsArray();
+        $a = Sequence::make($dictEntry)
+                     ->select('.wordSets..entries.')
+                     ->map(function($value) {
+                         $value['pos'] = $this->posFromCode($value['srcCodes']);
+                         return $value;
+                     })
+                     ->toArray();
+
+        $b = Sequence::make($dictEntry)
+                     ->select('.wordSets..entries.')
+                     ->toArray();
+
+        $this->assertNotEquals($b, $a);
+
+        // Changing the map value with arrays will not change the original data set.
+        $dictEntry = SampleData::getComplexSampleAsArray();
+
+        $a = Sequence::make($dictEntry)
+                     ->select('.wordSets..entries.')
+                     ->toArray();
+
+        Sequence::make($dictEntry)
+                     ->select('.wordSets..entries.')
+                     ->walk(function(&$value) {
+                         $value['pos'] = $this->posFromCode($value['srcCodes']);
+                     });
+
+        $b = Sequence::make($dictEntry)
+                     ->select('.wordSets..entries.')
+                     ->toArray();
+
+        $this->assertEquals($a, $b);
+
+    }
 }

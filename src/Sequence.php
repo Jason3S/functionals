@@ -22,7 +22,11 @@ class Sequence implements \IteratorAggregate {
 		return Sequence(map($this->getIterator(), $fn));
 	}
 
-	public function filter(callable $fn) {
+    public function walk(callable $fn) {
+        walk($this->getIterator(), $fn);
+    }
+
+    public function filter(callable $fn) {
 		return Sequence(filter($this->getIterator(), $fn));
 	}
 

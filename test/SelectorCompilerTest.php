@@ -9,6 +9,7 @@
 namespace functionals\test;
 
 use functionals\Selector\SelectorCompiler as SelectorCompiler;
+use functionals\Selector\SelectorCompilerException;
 
 class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
 	public function testTokenizer() {
@@ -71,7 +72,7 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotEquals(SelectorCompiler::tokenize(','), SelectorCompiler::tokenize('.'));
 	}
 
-    public function testParseTokens() {
+    public function testProcessTokens() {
         $tests = [
             'product'                          => true,
             '\'product\''                      => true,
@@ -87,11 +88,22 @@ class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
             'students.'                        => true,
             '.'                                => true,
             'products[type=55].name'           => true,
+            'products[type="55"].name'         => true,
+            'products[type=/55/A&type>40].name' => true,
+            'products[type==55].name'          => true,
+            'products[type!=55].name'          => true,
+            'products[type!==55].name'         => true,
+            'products[type===55].name'         => false,
+            'products[type==/55].name'         => false,
         ];
 
         foreach ($tests as $testPath => $isSuccessExpected) {
-            $tokens = SelectorCompiler::tokenize($testPath);
-            $parsedTokens = SelectorCompiler::processTokens($tokens);
+            try {
+                $tokens = SelectorCompiler::tokenize($testPath);
+                $parsedTokens = SelectorCompiler::processTokens($tokens);
+            } catch (SelectorCompilerException $e) {
+                $parsedTokens = null;
+            }
             if ($isSuccessExpected) {
                 $this->assertNotNull($parsedTokens, $testPath);
             } else {
