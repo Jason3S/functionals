@@ -398,6 +398,15 @@ class SelectorCompiler {
         }
     }
 
+    public static function fnExtract($fieldName) {
+        return function ($value) use ($fieldName) {
+            if ($value instanceof SelectReferenceWrapper) {
+                $value = $value->getValue();
+            }
+            return f\extractValue($value, $fieldName);
+        };
+    }
+
     /**
      * Walks the statement tree and builds an array of functions to be chained together.
      *
@@ -452,7 +461,7 @@ class SelectorCompiler {
                     break;
                 case 'condition_field':
                     list($fieldName) = static::walkStatementTree($statement['statements']);
-                    $fnChain[] = fn\fnExtract($fieldName);
+                    $fnChain[] = static::fnExtract($fieldName);
                     break;
 
                 case 'condition_expression':
@@ -511,6 +520,13 @@ class SelectorCompiler {
     public static function compilePath($path) {
         $tokenTree = static::parsePath($path);
         return static::compileTokenTree($tokenTree);
+    }
+
+
+    static function genFnChildren() {
+        return function ($values, $key, $parent, $parents) {
+
+        };
     }
 
 }

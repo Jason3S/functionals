@@ -1,8 +1,6 @@
 <?php
 namespace functionals\FnGen;
 
-require_once 'TestClassExtractValue.php';
-
 class FnGenTest extends \PHPUnit_Framework_TestCase {
 
 	public function testFnIdentity() {
@@ -132,26 +130,4 @@ class FnGenTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse(fnTrue() === fnTrue());
     }
 
-    public function testExtractValue() {
-        $testObject = new TestClassExtractValue();
-        $testArray = [
-            'one' => 1,
-            'two' => 2,
-            3 => 'three'
-        ];
-        $testArrayAsObject = (object)$testArray;
-
-        $this->assertEquals(1, extractValue($testArray, 'one'));
-        $this->assertEquals(2, extractValue($testArray, 'two'));
-        $this->assertEquals('three', extractValue($testArray, 3));
-
-        $this->assertEquals(1, extractValue($testArrayAsObject, 'one'));
-        $this->assertEquals(2, extractValue($testArrayAsObject, 'two'));
-        $this->assertNull(extractValue($testArrayAsObject, 3));  // <-- not possible to access numeric indexed values
-
-        $this->assertEquals($testObject->publicProperty, extractValue($testObject, 'publicProperty'));
-        $this->assertEquals($testObject->getProtectedProperty(), extractValue($testObject, 'protectedProperty'));
-        $this->assertEquals($testObject->getPrivateProperty(), extractValue($testObject, 'privateProperty'));
-        $this->assertNull(extractValue($testObject, 'noAccess'));
-    }
 }

@@ -176,3 +176,46 @@ function pairKeyValues(\Traversable $traversable) {
         yield [$key, $value];
     }
 }
+
+function extractValue($doc, $fieldName) {
+    if (is_array($doc) || $doc instanceof \ArrayAccess) {
+        return isset($doc[$fieldName]) ? $doc[$fieldName] : null;
+    }
+    if (is_object($doc)) {
+        if (isset($doc->{$fieldName})) {
+            return $doc->{$fieldName};
+        }
+        if (property_exists($doc, $fieldName)) {
+            $getMethod = 'get'.$fieldName;
+            if (method_exists($doc, $getMethod)) {
+                return $doc->{$getMethod}();
+            }
+        }
+    }
+    return null;
+}
+
+function hasField($doc, $fieldName) {
+    if (is_array($doc)) {
+        return array_key_exists($fieldName, $doc);
+    }
+
+    if($doc instanceof \ArrayAccess) {
+        return $doc->offsetExists($fieldName);
+    }
+
+    if (is_object($doc)) {
+        if (isset($doc->{$fieldName})) {
+            return true;
+        }
+        if (property_exists($doc, $fieldName)) {
+            // The property exists, now determine if it is null, or not public
+            $vars = get_object_vars($doc);
+            $getMethod = 'get'.$fieldName;
+
+            return array_key_exists($fieldName, $vars) || method_exists($doc, $getMethod);
+        }
+    }
+    return false;
+}
+

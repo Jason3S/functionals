@@ -48,24 +48,6 @@ function fnSwapParams(callable $fn) {
 	};
 }
 
-function extractValue($doc, $fieldName) {
-    if (is_array($doc) || $doc instanceof \ArrayAccess) {
-        return isset($doc[$fieldName]) ? $doc[$fieldName] : null;
-    }
-    if (is_object($doc)) {
-        if (isset($doc->{$fieldName})) {
-            return $doc->{$fieldName};
-        }
-        if (property_exists($doc, $fieldName)) {
-            $getMethod = 'get'.$fieldName;
-            if (method_exists($doc, $getMethod)) {
-                return $doc->{$getMethod}();
-            }
-        }
-    }
-    return null;
-}
-
 /**
  * Generate a function that will
  * Extract from an array $value[$fieldName] or an object $value->$fieldName
@@ -75,44 +57,44 @@ function extractValue($doc, $fieldName) {
  */
 function fnExtract($fieldName) {
 	return function ($value) use ($fieldName) {
-        return extractValue($value, $fieldName);
+        return f\extractValue($value, $fieldName);
 	};
 }
 
 
 function fnFieldEq($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) == $value);
+        return (f\extractValue($doc, $fieldName) == $value);
     };
 }
 
 function fnFieldNe($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) == $value);
+        return (f\extractValue($doc, $fieldName) == $value);
     };
 }
 
 function fnFieldLt($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) < $value);
+        return (f\extractValue($doc, $fieldName) < $value);
     };
 }
 
 function fnFieldGt($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) > $value);
+        return (f\extractValue($doc, $fieldName) > $value);
     };
 }
 
 function fnFieldLte($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) <= $value);
+        return (f\extractValue($doc, $fieldName) <= $value);
     };
 }
 
 function fnFieldGte($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (extractValue($doc, $fieldName) >= $value);
+        return (f\extractValue($doc, $fieldName) >= $value);
     };
 }
 

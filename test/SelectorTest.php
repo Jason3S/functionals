@@ -241,6 +241,32 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
                      ->toArray();
 
         $this->assertEquals($a, $b);
+    }
 
+    public function testSelectAndApplyMap() {
+        $dictEntry = SampleData::getComplexSampleAsArray();
+        $definitions = Sequence::make($dictEntry)->select('.wordSets..defs.')->keyBy(fn\fnExtract('defnr'))->toArray();
+        $a = Sequence::make($dictEntry)
+             ->selectAndMap('wordSets..entries.[srcCodes=/1|2|3|6/]', function ($value, $key, $parent, $parents) {
+                 $value['pos'] = 'noun';
+                 return $value;
+             })
+            ->selectAndMap('wordSets..entries.[srcCodes=/5/]', function ($value, $key, $parent, $parents) {
+                $value['pos'] = 'verb';
+                return $value;
+            })
+            ->selectAndMap('wordSets..entries.[defnr>0]', function ($value, $key, $parent, $parents) use ($definitions) {
+                $value['def'] = \functionals\extractValue($definitions, $value['defnr']);
+                return $value;
+            })
+            ->toArray();
+
+        $verbs = Sequence::make($a)->select('.wordSets..entries.[pos=verb]')->toArray();
+        $this->assertNotEmpty($verbs);
+
+        $nouns = Sequence::make($a)->select('.wordSets..entries.[pos=noun]')->toArray();
+        $nouns2 = Sequence::make($a)->select('.wordSets..entries.[srcCodes=/1|2|3|6/]')->toArray();
+        $this->assertNotEmpty($nouns);
+        $this->assertEquals($nouns2, $nouns);
     }
 }

@@ -6,7 +6,7 @@
  * Time: 20:21 PM
  */
 
-namespace functionals\FnGen;
+namespace functionals;
 
 
 class TestClassExtractValue {

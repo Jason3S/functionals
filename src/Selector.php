@@ -135,4 +135,12 @@ class Selector implements \IteratorAggregate {
 	    return $selector;
     }
 
+    public static function selectAndApplyMap($document, $path, $fnMap) {
+        foreach (Selector::make(new SelectReferenceWrapper($document), $path) as $wrapperKey => $wrapper) {
+            /** @var SelectReferenceWrapper $wrapper */
+            $wrapper->setValue($fnMap($wrapper->getValue(), $wrapper->getKey(), $wrapper->getParent(), $wrapper->getParents()));
+        }
+
+        return $document;
+    }
 }
