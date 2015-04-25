@@ -177,9 +177,9 @@ function pairKeyValues(\Traversable $traversable) {
     }
 }
 
-function extractValue($doc, $fieldName) {
+function extractValue($doc, $fieldName, $default = null) {
     if (is_array($doc) || $doc instanceof \ArrayAccess) {
-        return isset($doc[$fieldName]) ? $doc[$fieldName] : null;
+        return isset($doc[$fieldName]) ? $doc[$fieldName] : $default;
     }
     if (is_object($doc)) {
         if (isset($doc->{$fieldName})) {
@@ -190,9 +190,13 @@ function extractValue($doc, $fieldName) {
             if (method_exists($doc, $getMethod)) {
                 return $doc->{$getMethod}();
             }
+            $getMethod = 'is'.$fieldName;
+            if (method_exists($doc, $getMethod)) {
+                return $doc->{$getMethod}();
+            }
         }
     }
-    return null;
+    return $default;
 }
 
 function hasField($doc, $fieldName) {

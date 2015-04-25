@@ -130,4 +130,40 @@ class FnGenTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse(fnTrue() === fnTrue());
     }
 
+    public function testFnExtract() {
+        $array = ['one' => 1, 'two' => 2, 3 => 'three', 4 => 'four', 5 => 'five'];
+        $object = (object)$array;
+        $object->{5} = 'five';
+
+        $fn = fnExtract('one');
+        $this->assertEquals($array['one'], $fn($array));
+        $this->assertEquals($array['one'], $fn($object));
+
+        $fn = fnExtract('4');
+        $this->assertEquals($array[4], $fn($array));
+        $this->assertNotEquals($array[4], $fn($object));  // It is not possible to extract a numeric index from an object created by an array.
+
+        $fn = fnExtract('5');
+        $this->assertEquals($array[5], $fn($array));
+        $this->assertEquals($array[5], $fn($object));  // This works because 5 was added directly to the object.
+    }
+
+    public function testFnExtractFrom() {
+        $array = ['one' => 1, 'two' => 2, 3 => 'three', 4 => 'four', 5 => 'five'];
+        $object = (object)$array;
+        $object->{5} = 'five';
+
+        $fnArray = fnExtractFrom($array);
+        $fnObj = fnExtractFrom($object);
+        $this->assertEquals($array['one'], $fnArray('one'));
+        $this->assertEquals($array['one'], $fnObj('one'));
+
+        $this->assertEquals($array[4], $fnArray(4));
+        $this->assertNotEquals($array[4], $fnObj(4));  // It is not possible to extract a numeric index from an object created by an array.
+
+        $this->assertEquals($array[5], $fnArray(5));
+        $this->assertEquals($array[5], $fnObj(5));  // This works because 5 was added directly to the object.
+        $this->assertEquals($array[5], $fnArray('5'));
+        $this->assertEquals($array[5], $fnObj('5'));  // This works because 5 was added directly to the object.
+    }
 }

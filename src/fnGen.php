@@ -61,6 +61,18 @@ function fnExtract($fieldName) {
 	};
 }
 
+/**
+ * Generate a function that will
+ * Extract from an an array $fromArrayOrObject[$fieldName] or object $fromArrayOrObject->{$fieldName}
+ * @param array|object $fromArrayOrObject
+ * @return callable
+ */
+function fnExtractFrom($fromArrayOrObject) {
+    return function ($fieldName) use ($fromArrayOrObject) {
+        return f\extractValue($fromArrayOrObject, $fieldName);
+    };
+}
+
 
 function fnFieldEq($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {

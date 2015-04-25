@@ -55,6 +55,10 @@ class functionalsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($testObject->getProtectedProperty(), extractValue($testObject, 'protectedProperty'));
         $this->assertEquals($testObject->getPrivateProperty(), extractValue($testObject, 'privateProperty'));
         $this->assertNull(extractValue($testObject, 'noAccess'));
+        $this->assertTrue(extractValue($testObject, 'valueSet'));  // test isXXXX getter.
+
+        $default = 'default';
+        $this->assertEquals($default, extractValue($testObject, 'noAccess', $default));
     }
 
 }

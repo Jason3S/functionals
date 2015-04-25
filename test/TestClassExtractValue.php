@@ -14,12 +14,27 @@ class TestClassExtractValue {
     public $publicProperty = 'Value: publicProperty';
     protected $noAccess = 'Value: noAccess';
     private $privateProperty = 'Value privateProperty';
+    protected $valueSet = true;
 
+    /**
+     * @return string
+     */
     public function getProtectedProperty() {
         return $this->protectedProperty;
     }
 
+    /**
+     * @return string
+     */
     public function getPrivateProperty() {
         return $this->privateProperty;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isValueSet() {
+        return $this->valueSet;
+    }
+
 }
