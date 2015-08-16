@@ -6,10 +6,7 @@
  * Time: 09:09 AM
  */
 
-namespace functionals\test;
-
-use functionals\Selector\SelectorCompiler as SelectorCompiler;
-use functionals\Selector\SelectorCompilerException;
+namespace functionals;
 
 class SelectorCompilerTest extends \PHPUnit_Framework_TestCase {
 	public function testTokenizer() {

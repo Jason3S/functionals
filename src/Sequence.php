@@ -1,8 +1,6 @@
 <?php
 namespace functionals;
 
-use functionals\Selector\Selector;
-
 function Sequence($iterator) {
 	return Sequence::make($iterator);
 }

@@ -6,13 +6,11 @@
  * Time: 14:12
  */
 
-namespace functionals\test;
+namespace functionals;
 
 require_once 'SampleData.php';
 
-use functionals\Selector\Selector;
-use functionals\Sequence;
-use functionals\FnGen as fn;
+use functionals\test\SampleData as SampleData;
 
 class SelectorsTest extends \PHPUnit_Framework_TestCase {
 
@@ -34,7 +32,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
         $f = Sequence::make(SampleData::$sampleData)->select('...price_options.[]')->toArray();
         $this->assertEquals($d['price_options'], $e);
         $this->assertNotEquals($e, $f);
-        $g = Sequence::make($e)->filter(fn\fnNotEmpty())->toArray();
+        $g = Sequence::make($e)->filter(fnNotEmpty())->toArray();
         $this->assertEquals($g, $f);
 
     }
@@ -42,7 +40,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
     public function testSelectConditions() {
         $f = Sequence::make(SampleData::$sampleData)->select('...price_options.[]')->toArray();
         $e = Sequence::make(SampleData::$sampleData)->select('...price_options.')->toArray();
-        $g = Sequence::make($e)->filter(fn\fnNotEmpty())->toArray();
+        $g = Sequence::make($e)->filter(fnNotEmpty())->toArray();
         $this->assertEquals($g, $f);
     }
 
@@ -245,7 +243,7 @@ class SelectorsTest extends \PHPUnit_Framework_TestCase {
 
     public function testSelectAndApplyMap() {
         $dictEntry = SampleData::getComplexSampleAsArray();
-        $definitions = Sequence::make($dictEntry)->select('.wordSets..defs.')->keyBy(fn\fnExtract('defnr'))->toArray();
+        $definitions = Sequence::make($dictEntry)->select('.wordSets..defs.')->keyBy(fnExtract('defnr'))->toArray();
         $a = Sequence::make($dictEntry)
              ->selectAndMap('wordSets..entries.[srcCodes=/1|2|3|6/]', function ($value, $key, $parent, $parents) {
                  $value['pos'] = 'noun';

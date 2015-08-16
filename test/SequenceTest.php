@@ -1,7 +1,5 @@
 <?php
-namespace functionals\test;
-use functionals\Sequence as Sequence;
-use functionals\FnGen as FnGen;
+namespace functionals;
 
 class SequenceTest extends \PHPUnit_Framework_TestCase {
 
@@ -15,12 +13,12 @@ class SequenceTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testMap() {
-		$furnitureNames = Sequence::make(static::$furniture)->map(FnGen\fnExtract('name'))->toArray();
-		$this->assertEquals(array_map(FnGen\fnExtract('name'), static::$furniture), $furnitureNames);
+		$furnitureNames = Sequence::make(static::$furniture)->map(fnExtract('name'))->toArray();
+		$this->assertEquals(array_map(fnExtract('name'), static::$furniture), $furnitureNames);
 		$this->assertNotEmpty($furnitureNames);
 	}
 
 	public function testMapKeys() {
-		$furnitureNames = Sequence::make(static::$furniture)->map(FnGen\fnExtract('name'))->toArray();
+		$furnitureNames = Sequence::make(static::$furniture)->map(fnExtract('name'))->toArray();
 	}
 }

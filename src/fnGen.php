@@ -1,5 +1,5 @@
 <?php
-namespace functionals\FnGen;
+namespace functionals;
 
 use functionals as f;
 
@@ -57,7 +57,7 @@ function fnSwapParams(callable $fn) {
  */
 function fnExtract($fieldName) {
 	return function ($value) use ($fieldName) {
-        return f\extractValue($value, $fieldName);
+        return extractValue($value, $fieldName);
 	};
 }
 
@@ -69,44 +69,44 @@ function fnExtract($fieldName) {
  */
 function fnExtractFrom($fromArrayOrObject) {
     return function ($fieldName) use ($fromArrayOrObject) {
-        return f\extractValue($fromArrayOrObject, $fieldName);
+        return extractValue($fromArrayOrObject, $fieldName);
     };
 }
 
 
 function fnFieldEq($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) == $value);
+        return (extractValue($doc, $fieldName) == $value);
     };
 }
 
 function fnFieldNe($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) == $value);
+        return (extractValue($doc, $fieldName) == $value);
     };
 }
 
 function fnFieldLt($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) < $value);
+        return (extractValue($doc, $fieldName) < $value);
     };
 }
 
 function fnFieldGt($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) > $value);
+        return (extractValue($doc, $fieldName) > $value);
     };
 }
 
 function fnFieldLte($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) <= $value);
+        return (extractValue($doc, $fieldName) <= $value);
     };
 }
 
 function fnFieldGte($fieldName, $value) {
     return function ($doc) use ($fieldName, $value) {
-        return (f\extractValue($doc, $fieldName) >= $value);
+        return (extractValue($doc, $fieldName) >= $value);
     };
 }
 
@@ -279,7 +279,7 @@ function fnNotFn($fn) {
  */
 function fnChildren() {
     return function ($iterator) {
-        return f\children($iterator);
+        return children($iterator);
     };
 }
 
@@ -289,7 +289,7 @@ function fnChildren() {
  */
 function fnFilter($fn) {
     return function ($iterator) use ($fn) {
-        return f\filter($iterator, $fn);
+        return filter($iterator, $fn);
     };
 }
 

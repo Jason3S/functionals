@@ -1,7 +1,5 @@
 <?php
-namespace functionals\Selector;
-
-use functionals\FnGen as FnGen;
+namespace functionals;
 
 /*
   Syntax options:
@@ -67,7 +65,7 @@ class Selector implements \IteratorAggregate {
     }
 
     public function selectConditionFieldEquals($fieldName, $value) {
-        return Selector(selectField($this->iterator, FnGen\fnFieldEq($fieldName, $value)));
+        return Selector(selectField($this->iterator, fnFieldEq($fieldName, $value)));
     }
 
 	public function selectChildren() {
@@ -126,7 +124,7 @@ class Selector implements \IteratorAggregate {
 
 
 	public static function make($iterator, $path = null) {
-        $selector = new Selector(\functionals\toIterator($iterator));
+        $selector = new Selector(toIterator($iterator));
 
 		if ($path) {
 			$selector = static::applyPath($selector, $path);

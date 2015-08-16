@@ -6,7 +6,7 @@
  * Time: 13:09 PM
  */
 
-namespace functionals\Selector;
+namespace functionals;
 
 
 class SelectReferenceWrapper implements \IteratorAggregate {

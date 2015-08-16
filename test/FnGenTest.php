@@ -1,5 +1,5 @@
 <?php
-namespace functionals\FnGen;
+namespace functionals;
 
 class FnGenTest extends \PHPUnit_Framework_TestCase {
 

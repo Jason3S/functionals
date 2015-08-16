@@ -3,7 +3,7 @@ namespace functionals;
 
 require_once 'TestClassExtractValue.php';
 
-class functionalsTest extends \PHPUnit_Framework_TestCase {
+class FunctionalsTest extends \PHPUnit_Framework_TestCase {
 
 	protected static $furniture = [
 		['name'=>'wooden table', 'legs'=>4, 'material'=>'wood', 'count'=>8],

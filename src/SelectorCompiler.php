@@ -1,9 +1,5 @@
 <?php
-namespace functionals\Selector;
-
-use functionals\FnGen as fn;
-use functionals as f;
-
+namespace functionals;
 
 class SelectorCompiler {
     const TOKEN_START               = 'start';
@@ -304,11 +300,11 @@ class SelectorCompiler {
             case ',':
             case '|':
                 return function ($fnLeft, $fnRight) {
-                    return fn\fnOr($fnLeft, $fnRight);
+                    return fnOr($fnLeft, $fnRight);
                 };
             case '&':
                 return function ($fnLeft, $fnRight) {
-                    return fn\fnAnd($fnLeft, $fnRight);
+                    return fnAnd($fnLeft, $fnRight);
                 };
             default:
                 throw new SelectorCompilerException('Unexpected operator: '.$op);
@@ -327,12 +323,12 @@ class SelectorCompiler {
         switch ($op) {
             case '|':
                 return function ($fnLeft, $fnRight) {
-                    return fn\fnOr($fnLeft, $fnRight);
+                    return fnOr($fnLeft, $fnRight);
                 };
             case ',':
             case '&':
                 return function ($fnLeft, $fnRight) {
-                    return fn\fnAnd($fnLeft, $fnRight);
+                    return fnAnd($fnLeft, $fnRight);
                 };
             default:
                 throw new SelectorCompilerException('Unexpected operator: '.$op);
@@ -344,36 +340,36 @@ class SelectorCompiler {
         switch ($op) {
             case '=':
                 return function ($value) {
-                    return fn\fnEq($value);
+                    return fnEq($value);
                 };
             case '==':
                 return function ($value) {
-                    return fn\fnEqEq($value);
+                    return fnEqEq($value);
                 };
             case '<>':
             case '!=':
                 return function ($value) {
-                    return fn\fnNe($value);
+                    return fnNe($value);
                 };
             case '!==':
                 return function ($value) {
-                    return fn\fnNeEq($value);
+                    return fnNeEq($value);
                 };
             case '<':
                 return function ($value) {
-                    return fn\fnLt($value);
+                    return fnLt($value);
                 };
             case '>':
                 return function ($value) {
-                    return fn\fnGt($value);
+                    return fnGt($value);
                 };
             case '<=':
                 return function ($value) {
-                    return fn\fnLte($value);
+                    return fnLte($value);
                 };
             case '>=':
                 return function ($value) {
-                    return fn\fnGte($value);
+                    return fnGte($value);
                 };
             default:
                 throw new SelectorCompilerException('Unexpected operator: '.$op);
@@ -386,12 +382,12 @@ class SelectorCompiler {
             case '=':
             case '==':
                 return function ($regex) {
-                    return fn\fnRegEx($regex);
+                    return fnRegEx($regex);
                 };
             case '!=':
             case '!==':
                 return function ($regex) {
-                    return fn\fnNotFn( fn\fnRegEx($regex) );
+                    return fnNotFn( fnRegEx($regex) );
                 };
             default:
                 throw new SelectorCompilerException('Unexpected operator: '.$op);
@@ -403,7 +399,7 @@ class SelectorCompiler {
             if ($value instanceof SelectReferenceWrapper) {
                 $value = $value->getValue();
             }
-            return f\extractValue($value, $fieldName);
+            return extractValue($value, $fieldName);
         };
     }
 
@@ -422,11 +418,11 @@ class SelectorCompiler {
                     $fnChain = static::walkStatementTree($statement['statements']);
                     break;
                 case 'field_separator':
-                    $fnChain[] = fn\fnChildren();
+                    $fnChain[] = fnChildren();
                     break;
                 case 'field_selector':
                     $fnConditions = static::walkStatementTree($statement['statements']);
-                    $fnChain[] = fn\fnFilter(fn\fnAnd($fnConditions));
+                    $fnChain[] = fnFilter(fnAnd($fnConditions));
                     break;
                 case 'field':
                     $fieldName = $statement[self::TOKEN][self::VALUE];
@@ -441,7 +437,7 @@ class SelectorCompiler {
                 case 'condition':
                     $fnConditionChain = static::walkStatementTree($statement['statements']);
                     if (! empty($fnConditionChain)) {
-                        $fnConditions = fn\fnAnd($fnConditionChain);
+                        $fnConditions = fnAnd($fnConditionChain);
                     } else {
                         // return true if it can be iterated over
                         $fnConditions = function ($value) {
@@ -457,7 +453,7 @@ class SelectorCompiler {
                     break;
                 case 'condition_field_exists':
                     list($fnGetField) = static::walkStatementTree($statement['statements']);
-                    $fnChain[] = fn\fnChain($fnGetField, fn\fnIsSet());
+                    $fnChain[] = fnChain($fnGetField, fnIsSet());
                     break;
                 case 'condition_field':
                     list($fieldName) = static::walkStatementTree($statement['statements']);
@@ -466,7 +462,7 @@ class SelectorCompiler {
 
                 case 'condition_expression':
                     list($fnGetField, $fnOp, $valueRight) = static::walkStatementTree($statement['statements']);
-                    $fnChain[] = fn\fnChain($fnGetField, $fnOp($valueRight));
+                    $fnChain[] = fnChain($fnGetField, $fnOp($valueRight));
                     break;
 
                 case 'op_eq':
@@ -510,7 +506,7 @@ class SelectorCompiler {
      */
     public static function compileTokenTree($tokenTree) {
         $fnChain = static::walkStatementTree($tokenTree);
-        return fn\fnChain($fnChain);
+        return fnChain($fnChain);
     }
 
         /**

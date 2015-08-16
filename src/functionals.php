@@ -4,7 +4,7 @@ namespace functionals;
 /**
  * Covert arrays, objects, and other Traversable items into an iterator.
  *
- * @param Traversable $iterator - an iteratable item
+ * @param \Traversable|array $iterator - an iteratable item
  * @return \Iterator|\ArrayIterator|\Traversable
  */
 function toIterator($iterator) {
@@ -209,6 +209,7 @@ function hasField($doc, $fieldName) {
     }
 
     if (is_object($doc)) {
+        // Quick check
         if (isset($doc->{$fieldName})) {
             return true;
         }
