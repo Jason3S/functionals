@@ -3,11 +3,7 @@
     "description": "Functional Extensions for PHP",
     "autoload": {
         "psr-4": { "functionals\\": ["src/"] },
-        "files": [
-            "src/functionals.php",
-            "src/fnGen.php",
-            "src/fnMap.php"
-        ]
+        "files": [ "src/autoload.php" ]
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8"

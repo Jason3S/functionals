@@ -1,8 +1,6 @@
 <?php
 namespace functionals;
 
-use functionals as f;
-
 /**
  * generate an identity function
  *
@@ -342,4 +340,15 @@ function fnCallCountPassThrough($fn, &$counter) {
  */
 function fnPluck($fieldName) {
     return fnExtract($fieldName);
+}
+
+/**
+ * Generate a function that will map a value to another value by looking it up in an assoc array.
+ *
+ * @param array|object|\ArrayAccess $map
+ * @param null $default
+ * @return \Closure
+ */
+function fnMapValue($map, $default = null) {
+    return function ($value) use ($map, $default)  { return mapValue($value, $map, $default); };
 }

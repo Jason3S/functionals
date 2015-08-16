@@ -224,3 +224,42 @@ function hasField($doc, $fieldName) {
     return false;
 }
 
+/**
+ * @param string       $value
+ * @param array|object $arrayMap
+ * @param null|mixed   $default
+ * @return null
+ */
+function mapValue($value, $arrayMap, $default = null) {
+    return extractValue($arrayMap, $value, $default);
+}
+
+/**
+ * @param array|object $doc
+ * @param array $mapDefinition
+ * @return array
+ */
+function mapper($doc, $mapDefinition) {
+    $result = array();
+
+    foreach ($mapDefinition as $field => $src) {
+        if ($src === '*') {
+            $srcValue = $doc;
+        } elseif ($src instanceof \Closure) {
+            $srcValue = $src($doc);
+        } else {
+            $srcValue = extractValue($doc, $src);
+        }
+
+        if ($field === '*') {
+            if (!empty($srcValue) && (is_array($srcValue) || is_object($srcValue))) {
+                $result = array_merge($result, (array)$srcValue);
+            }
+        } else {
+            $result[$field] = $srcValue;
+        }
+    }
+
+    return $result;
+}
+

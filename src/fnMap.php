@@ -9,6 +9,6 @@
 namespace functionals;
 
 
-function map() {
+function fnMapper() {
 
 }

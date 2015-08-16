@@ -61,4 +61,70 @@ class FunctionalsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($default, extractValue($testObject, 'noAccess', $default));
     }
 
+    public function famousPeopleProvider() {
+        return [
+            [[
+                'name_first' => 'John',
+                'name_middle' => 'F',
+                'name_last' => 'Kennedy',
+                'occupation' => 'President',
+                'date_birth' => '1917-05-29',
+                'date_death' => '1963-11-23',
+                'gender' => 'm',
+            ]],
+            [[
+                'name_first' => 'Alfred',
+                'name_middle' => 'Joseph',
+                'name_last' => 'Hitchcock',
+                'occupation' => 'Author',
+                'date_birth' => '1899-08-13',
+                'date_death' => '1980-04-29',
+                'gender' => 'm',
+            ]],
+            [[
+                'name_first' => 'Dianna',
+                'name_last' => 'Spencer',
+                'occupation' => 'Princess of Wales',
+                'date_birth' => '1961-07-01',
+                'date_death' => '1997-08-31',
+                'gender' => 'f',
+            ]],
+        ];
+    }
+
+    /**
+     *
+     * @param array $person
+     * @dataProvider famousPeopleProvider
+     */
+    public function testFnMapper($person) {
+        $fnAge = function($v) {
+            $fromDate = extractValue($v, 'date_birth');
+            $toDate = extractValue($v, 'date_death', date('Y-m-d'));
+
+            $age = 0;
+
+            if ($fromDate) {
+                $fromDateTime = new \DateTime($fromDate);
+                $toDateTime = new \DateTime($toDate);
+                $diff = $fromDateTime->diff($toDateTime);
+                $age = $diff->format('%y');
+            }
+
+            return $age;
+        };
+
+        $mapDefinition = [
+            // dst field  => src field or map function
+            'Last Name'   => 'name_last',
+            'First Name'  => 'name_first',
+            'Middle Name' => 'name_middle',
+            'Age'         => $fnAge,
+            'Gender'      => fnChain(fnExtract('gender'), fnMapValue(['m' => 'male', 'f' => 'female'])),
+        ];
+
+        $value = mapper($person, $mapDefinition);
+        $this->assertNotEmpty($value);
+    }
+
 }
